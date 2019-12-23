@@ -3,9 +3,9 @@
 fromSystem = 1 // Your can change this as you wish! If fromSystem is equal to toSystem, the script will send ships only to 1 sollar system
 toSystem = 499 // Your can change this as you wish! If fromSystem is equal to toSystem, the script will send ships only to 1 sollar system
 shipsList = {PATHFINDER: 5, LARGECARGO: 300, ESPIONAGEPROBE: 11, BOMBER: 1, DESTROYER: 1}// Your can change ENTYRE List, even left only 1 type of ships!
+//=== Please, DO NOT change anything brlow! ===
 origin = nil
 master = 0
-//=== Please, DO NOT change anything brlow! ===
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     flts = 0
