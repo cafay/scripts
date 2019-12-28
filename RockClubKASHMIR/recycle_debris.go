@@ -21,7 +21,7 @@ for celestial in GetCachedCelestials() {
 }
 if origin != nil {
     Print("Your origin is "+origin.Coordinate)
-    for system = fromSystem; system <= toSystem; system++ {
+    for system = curSystem; system <= toSystem; system++ {
         Sleep(Random(1000, 3000)) // For avoiding ban
         systemInfos, err = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
