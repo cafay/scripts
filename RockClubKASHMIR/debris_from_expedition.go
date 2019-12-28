@@ -25,7 +25,7 @@ if origin != nil {
     for system = curSystem; system <= toSystem; system++ {
         systemInfo, _ = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         Dtarget, _ = ParseCoord(origin.GetCoordinate().Galaxy+":"+system+":"+16)
-        Sleep(Random(1000, 3000)) // for avoid ban
+        Sleep(Random(500, 1500)) // for avoid ban
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
