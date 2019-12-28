@@ -1,7 +1,7 @@
 //==== This script is created by RockClubKASHMIR ====
 
-fromSystem = 100 // Your can change this value as you want
-toSystem = 150 // Your can change this value as you want
+fromSystem = 109 // Your can change this value as you want
+toSystem = 400 // Your can change this value as you want
 Rnbr = 0  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
 times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value as you wish
 
@@ -25,7 +25,7 @@ if origin != nil {
     Print("Your origin is "+origin.Coordinate)
     for system = curSystem; system <= toSystem; system++ {
         Sleep(Random(500, 1500)) // For avoiding ban
-        systemInfos, err = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
+        systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
@@ -79,24 +79,30 @@ if origin != nil {
                 curSystem = system-1
             }
         }
-        if system >= toSystem {
-            if times > 0 {
-                if cycle < times {
-                    cycle++
-                    if nbr == 0 {Print("Not found any debris! Start searching again...")}
-                    curSystem = fromSystem-1
-                    system = curSystem
-                    Sleep(4000)
+        if b == nil {
+            if system >= toSystem {
+                if times > 0 {
+                    if cycle < times {
+                        cycle++
+                        if nbr == 0 {Print("Not found any debris! Start searching again...")}
+                        curSystem = fromSystem-1
+                        system = curSystem
+                        Sleep(4000)
+                    } else {
+                        Print("You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                        SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                        break
+                    }
                 } else {
-                    Print("You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
-                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                    Print("You made full scan all systems chosen by you! The script turns off")
+                    SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")
                     break
                 }
-            } else {
-                Print("You made full scan all systems chosen by you! The script turns off")
-                SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")
-                break
             }
+        } else {
+            Print("Please, type correctly fromSystem and/or toSystem!")
+            Sleep(2500)
+            break
         }
     }
 } else {Print("You don't have Recyclers on your Planets/Moons!")}
