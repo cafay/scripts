@@ -21,7 +21,7 @@ for celestial in GetCachedCelestials() {
     }
     if flts > master {
         master = flts
-        origin = celestial // Your Planet(or Moon)
+        origin = celestial // Your Planet(or Moon) with higher amount of ships by your list
     }
 }
 if origin != nil {
@@ -36,8 +36,8 @@ if origin != nil {
         }
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
-            ships, _ = origin.GetShips()
             if Destination != 0 {
+                ships, _ = origin.GetShips()
                 Sleep(Random(6000, 10000))
                 f = NewFleet()
                 f.SetOrigin(origin)
