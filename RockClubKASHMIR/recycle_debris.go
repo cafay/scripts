@@ -3,7 +3,7 @@
 fromSystem = 100 // Your can change this value as you want
 toSystem = 150 // Your can change this value as you want
 Rnbr = 0  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
-times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value if you want
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value as you wish
 
 //----
 cycle = 0
@@ -42,9 +42,8 @@ if origin != nil {
                     f.SetDestination(planetInfo.Coordinate)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {
-                        nbr = ships.Recycler
-                    } else {nbr = planetInfo.Debris.RecyclersNeeded}
+                    nbr = planetInfo.Debris.RecyclersNeeded
+                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {nbr = ships.Recycler}
                     f.AddShips(RECYCLER, nbr)
                     a, err = f.SendNow()
                     if err == nil {
