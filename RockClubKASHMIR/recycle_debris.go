@@ -2,14 +2,14 @@
 
 fromSystem = 100 // Your can change this value as you wish
 toSystem = 200 // Your can change this value as you wish
-Rnbr = 0  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you wish
+Rnbr = 1  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you wish
 //----
 cycle = 0
 curSystem = fromSystem
 origin = nil
 flts = 0
 nbr = 0
-err = 0
+err = nil
 i = 1
 totalSlots = GetSlots().Total - GetFleetSlotsReserved()
 for celestial in GetCachedCelestials() {
@@ -26,6 +26,7 @@ if origin != nil {
         systemInfos, err = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
         slots = GetSlots().InUse
+        if err != nil {slots = totalSlots}
         if slots < totalSlots {
             if planetInfo != nil {
                 Print("Checking "+planetInfo.Coordinate)
@@ -57,13 +58,10 @@ if origin != nil {
                             Print("The Recycler is NOT sended! "+err)
                             SendTelegram(TELEGRAM_CHAT_ID, "The Recycler is NOT sended! "+err)
                         }
-                        
                     }
                 }
             }
-            if i < 15 {
-                i++
-            } else {i = 1}
+            if i < 15 {i++} else {i = 1}
         } else {
             for slots == totalSlots {
                 if err != 0 {
