@@ -3,8 +3,8 @@
 //--- WARNING!!! This script can work ONLY if you are Discoverer! ---
 fromSystem = 100 // Your can change this value as you want
 toSystem = 200 // Your can change this value as you want
-Pnbr = 1  // When Rnbr = 2, the script will search only debris for minimum 2 Pathfinders. You can change this value as you want
-times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value if you want
+Pnbr = 1  // When Rnbr = 1, the script will search only debris for minimum 2 Pathfinders. You can change this value as you want
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value as you wish
 //----
 cycle = 0
 curSystem = fromSystem
@@ -41,6 +41,7 @@ if origin != nil {
                     f.SetDestination(Dtarget)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
+                    nbr = systemInfo.ExpeditionDebris.PathfindersNeeded
                     if systemInfo.ExpeditionDebris.PathfindersNeeded > ships.Pathfinder {nbr = ships.Pathfinder}
                     f.AddShips(PATHFINDER, nbr)
                     a, err = f.SendNow()
@@ -85,8 +86,8 @@ if origin != nil {
                     system = curSystem
                     Sleep(4000)
                 } else {
-                    Print("You made "+times+" times full scan all systems chosen by you! The script turns off")
-                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    Print("You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
                     break
                 }
             } else {
