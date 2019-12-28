@@ -1,8 +1,9 @@
 //==== This script is created by RockClubKASHMIR ====
 
-fromSystem = 100 // Your can change this value as you wish
-toSystem = 200 // Your can change this value as you wish
-Rnbr = 1  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you wish
+fromSystem = 100 // Your can change this value as you want
+toSystem = 200 // Your can change this value as you want
+Rnbr = 1  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value if you want
 //----
 cycle = 0
 curSystem = fromSystem
