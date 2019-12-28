@@ -69,6 +69,7 @@ if origin != nil {
                     Sleep(2*60*1000)
                     ships, _ = origin.GetShips()
                     if ships.Recycler > 0 {slots = GetSlots().InUse}
+                    err = nil
                 } else {
                     Print("All Fleet slots are busy now! Please, wait "+ShortDur(2*60))
                     Sleep(2*60*1000)
