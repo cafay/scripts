@@ -1,9 +1,10 @@
 //==== This script is created by RockClubKASHMIR ====
 
 fromSystem = 100 // Your can change this value as you want
-toSystem = 200 // Your can change this value as you want
-Rnbr = 1  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
+toSystem = 150 // Your can change this value as you want
+Rnbr = 0  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
 times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value if you want
+
 //----
 cycle = 0
 curSystem = fromSystem
@@ -23,7 +24,7 @@ for celestial in GetCachedCelestials() {
 if origin != nil {
     Print("Your origin is "+origin.Coordinate)
     for system = curSystem; system <= toSystem; system++ {
-        Sleep(Random(1000, 3000)) // For avoiding ban
+        Sleep(Random(500, 1500)) // For avoiding ban
         systemInfos, err = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
         slots = GetSlots().InUse
@@ -41,7 +42,9 @@ if origin != nil {
                     f.SetDestination(planetInfo.Coordinate)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {nbr = ships.Recycler}
+                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {
+                        nbr = ships.Recycler
+                    } else {nbr = planetInfo.Debris.RecyclersNeeded}
                     f.AddShips(RECYCLER, nbr)
                     a, err = f.SendNow()
                     if err == nil {
@@ -86,8 +89,8 @@ if origin != nil {
                     system = curSystem
                     Sleep(4000)
                 } else {
-                    Print("You made "+times+" times full scan all systems chosen by you! The script turns off")
-                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    Print("You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
                     break
                 }
             } else {
