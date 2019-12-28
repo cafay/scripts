@@ -77,15 +77,21 @@ if origin != nil {
             }
         }
         if system >= toSystem {
-            if cycle < 1 {
-                cycle++
-                if nbr == 0 {Print("Not found any debris! Start searching again...")}
-                curSystem = fromSystem-1
-                system = curSystem
-                Sleep(4000)
+            if times > 0 {
+                if cycle < times {
+                    cycle++
+                    if nbr == 0 {Print("Not found any debris! Start searching again...")}
+                    curSystem = fromSystem-1
+                    system = curSystem
+                    Sleep(4000)
+                } else {
+                    Print("You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    break
+                }
             } else {
-                Print("You made 2 times full scan all systems chosen by you! The script turns off")
-                SendTelegram(TELEGRAM_CHAT_ID, "You made 2 times full scan all systems chosen by you! The script turns off")
+                Print("You made full scan all systems chosen by you! The script turns off")
+                SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")
                 break
             }
         }
