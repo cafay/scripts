@@ -40,9 +40,7 @@ if origin != nil {
                     f.SetDestination(planetInfo.Coordinate)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {
-                        nbr = ships.Recycler
-                    } else {nbr = planetInfo.Debris.RecyclersNeeded}
+                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {nbr = ships.Recycler}
                     f.AddShips(RECYCLER, nbr)
                     a, err = f.SendNow()
                     if err == nil {
