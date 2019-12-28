@@ -1,9 +1,10 @@
 //==== This script is created by RockClubKASHMIR ====
 
 //--- WARNING!!! This script can work ONLY if you are Discoverer! ---
-fromSystem = 100 // Your can change this value as you wish
-toSystem = 200 // Your can change this value as you wish
-Pnbr = 1  // When Rnbr = 2, the script will search only debris for minimum 2 Pathfinders. You can change this value as you wish
+fromSystem = 100 // Your can change this value as you want
+toSystem = 200 // Your can change this value as you want
+Pnbr = 1  // When Rnbr = 2, the script will search only debris for minimum 2 Pathfinders. You can change this value as you want
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value if you want
 //----
 cycle = 0
 curSystem = fromSystem
@@ -40,9 +41,7 @@ if origin != nil {
                     f.SetDestination(Dtarget)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    if systemInfo.ExpeditionDebris.PathfindersNeeded > ships.Pathfinder {
-                        nbr = ships.Pathfinder
-                    } else {nbr = systemInfo.ExpeditionDebris.PathfindersNeeded}
+                    if systemInfo.ExpeditionDebris.PathfindersNeeded > ships.Pathfinder {nbr = ships.Pathfinder}
                     f.AddShips(PATHFINDER, nbr)
                     a, err = f.SendNow()
                     if err == nil {
@@ -78,15 +77,21 @@ if origin != nil {
             }
         }
         if system >= toSystem {
-            if cycle < 1 {
-                cycle++
-                if nbr == 0 {Print("Not found any debris! Start searching again...")}
-                curSystem = fromSystem-1
-                system = curSystem
-                Sleep(4000)
+            if times > 0 {
+                if cycle < times {
+                    cycle++
+                    if nbr == 0 {Print("Not found any debris! Start searching again...")}
+                    curSystem = fromSystem-1
+                    system = curSystem
+                    Sleep(4000)
+                } else {
+                    Print("You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    SendTelegram(TELEGRAM_CHAT_ID, "You made "+times+" times full scan all systems chosen by you! The script turns off")
+                    break
+                }
             } else {
-                Print("You made 2 times full scan all systems chosen by you! The script turns off")
-                SendTelegram(TELEGRAM_CHAT_ID, "You made 2 times full scan all systems chosen by you! The script turns off")
+                Print("You made full scan all systems chosen by you! The script turns off")
+                SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")
                 break
             }
         }
