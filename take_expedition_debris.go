@@ -5,6 +5,7 @@ fromSystem = 1 // Your can change this value as you want
 toSystem = 200 // Your can change this value as you want
 Pnbr = 1  // When Pnbr = 1, the script will search debris for minimum 2 Pathfinders. You can set this value from 0, to the number you want
 times = 1 // if times = 1, the script will full scan 2 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
+
 //----
 cycle = 0
 curSystem = fromSystem
