@@ -1,3 +1,5 @@
+These scripts are created for Ninja BOT
+
 My future updates can be seen when you click on any of links below
 
 [Find and recycle debris](https://github.com/RockClubKASHMIR/scripts/blob/master/recycle_debris.go)  
