@@ -1,9 +1,9 @@
 //==== This script is created by RockClubKASHMIR ====
 
 fromSystem = 1 // Your can change this value as you wish
-toSystem = 200 // Your can change this value as you wish
+toSystem = 1 // Your can change this value as you wish
 shipsList = {LARGECARGO: 200, ESPIONAGEPROBE: 11, BOMBER: 1, DESTROYER: 1}// Your can change ENTYRE List, even to left only 1 type of ships!
-expeditionDuration = 1 // 1 for one hour, 2 for two hours... change this value as you wish
+DurationOfExpedition = 1 // 1 for one hour, 2 for two hours... change this value as you wish
 
 //-------
 curSystem = fromSystem
@@ -26,8 +26,11 @@ for celestial in GetCachedCelestials() {
 }
 if origin != nil {
     Print("Your origin is "+origin.Coordinate)
+    if toSystem > 499 || toSystem == 0 {toSystem = -1}
+    if fromSystem > toSystem {Print("Please, type correctly fromSystem and/or toSystem!")}
     for system = curSystem; system <= toSystem; system++ {
-        Destination = NewCoordinate(origin.GetCoordinate().Galaxy, system, 16, PLANET_TYPE)
+        systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
+        Destination, _ = ParseCoord(origin.GetCoordinate().Galaxy+":"+system+":"+16)
         totalSlots = GetSlots().Total - GetFleetSlotsReserved()
         slots = GetSlots().InUse
         if slots < totalSlots {
@@ -36,7 +39,7 @@ if origin != nil {
         }
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
-            if Destination != 0 {
+            if b == nil {
                 ships, _ = origin.GetShips()
                 Sleep(Random(6000, 10000))
                 f = NewFleet()
@@ -50,7 +53,7 @@ if origin != nil {
                         f.AddShips(id, nbr)
                     }
                 }
-                f.SetDuration(expeditionDuration)
+                f.SetDuration(DurationOfExpedition)
                 a, err = f.SendNow()
                 if err == nil {
                     Print("The ships are sended successfully to "+Destination)
@@ -77,9 +80,14 @@ if origin != nil {
             }
             curSystem = system-1
         }
-        if system >= toSystem {
-            curSystem = fromSystem-1
-            system = curSystem
+        if b == nil {
+            if system >= toSystem {
+                curSystem = fromSystem-1
+                system = curSystem
+            }
+        } else {
+            Print("Please, type correctly fromSystem and/or toSystem!")
+            break
         }
     }
-} else {Print("You don't have ships from the Ships list on your Planets/Moons!")}
+} else {Print("Not found any ships from the List of ships on your Planets/Moons!")}
