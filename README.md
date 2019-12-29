@@ -1,5 +1,6 @@
 Hi, I hope that mine scripts will be useful for you
+My future updates can be seen when you click on any of links below
 
-[Expedition by ships list](RockClubKASHMIR/recycle_debris.go)  
-[Take Expedition debris](RockClubKASHMIR/expedition_by_list_of_ships.go)  
-[Take debris](take_expedition_debris.go)
+[Find and recycle debris](https://github.com/RockClubKASHMIR/scripts/blob/master/recycle_debris.go)  
+[Sends fleets by list of ships to EXEDITION](https://github.com/RockClubKASHMIR/scripts/blob/master/expedition_by_list_of_ships.go)  
+[Find and take EXPEDITION debris](https://github.com/RockClubKASHMIR/scripts/blob/master/take_expedition_debris.go)
