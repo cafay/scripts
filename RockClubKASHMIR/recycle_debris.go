@@ -1,9 +1,9 @@
 //==== This script is created by RockClubKASHMIR ====
 
-fromSystem = 109 // Your can change this value as you want
+fromSystem = 1 // Your can change this value as you want
 toSystem = 400 // Your can change this value as you want
-Rnbr = 0  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
-times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value as you wish
+Rnbr = 1  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
+times = 1 // if times = 2, the script will scan 3 times the the entire galaxy, from system and to system you want. This value from 0 to number you want
 
 //----
 cycle = 0
@@ -13,16 +13,20 @@ flts = 0
 nbr = 0
 err = nil
 i = 1
+if (times < 0) {times = 0}
 totalSlots = GetSlots().Total - GetFleetSlotsReserved()
+// Start to Search highest amount of Recyclers on all your Planets and Moons(if you have some)
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     if ships.Recycler > flts {
         flts = ships.Recycler
-        origin = celestial // Your Planet(or Moon), with more Recyclers
+        origin = celestial // Your Planet(or Moon) with highest amount of Recyclers
     }
 }
 if origin != nil {
     Print("Your origin is "+origin.Coordinate)
+    if toSystem > 499 || toSystem == 0 {toSystem = -1}
+    if fromSystem > toSystem {Print("Please, type correctly fromSystem and/or toSystem!")}
     for system = curSystem; system <= toSystem; system++ {
         Sleep(Random(500, 1500)) // For avoiding ban
         systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
@@ -30,7 +34,7 @@ if origin != nil {
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
-            if planetInfo != nil {
+            if b == nil {
                 Print("Checking "+planetInfo.Coordinate)
                 if planetInfo.Debris.RecyclersNeeded > Rnbr { 
                     ships, _ = origin.GetShips()
@@ -101,7 +105,6 @@ if origin != nil {
             }
         } else {
             Print("Please, type correctly fromSystem and/or toSystem!")
-            Sleep(2500)
             break
         }
     }
