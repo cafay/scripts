@@ -22,7 +22,7 @@ for celestial in GetCachedCelestials() {
     }
     if flts > master {
         master = flts
-        origin = celestial // Your Planet(or Moon) with highest amount of ships by your list
+        origin = celestial // Your Planet(or Moon) with highest amount of ships from the list of ships
     }
 }
 if origin != nil {
