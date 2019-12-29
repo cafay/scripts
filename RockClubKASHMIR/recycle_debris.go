@@ -2,8 +2,8 @@
 
 fromSystem = 1 // Your can change this value as you want
 toSystem = 400 // Your can change this value as you want
-Rnbr = 1  // When Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you want
-times = 1 // if times = 2, the script will scan 3 times the the entire galaxy, from system and to system you want. This value from 0 to number you want
+Rnbr = 0  // When Rnbr = 1, the script will search debris for minimum 2 Recyclers. You can set this value from 0, to the number you want
+times = 1 // If times = 2, the script will scan 3 times the the entire galaxy, from system and to system you want. You can set this value from 0, to the number you want
 
 //----
 cycle = 0
@@ -13,6 +13,7 @@ flts = 0
 nbr = 0
 err = nil
 i = 1
+if (Rnbr < 0) {Rnbr = 0}
 if (times < 0) {times = 0}
 totalSlots = GetSlots().Total - GetFleetSlotsReserved()
 // Start to Search highest amount of Recyclers on all your Planets and Moons(if you have some)
@@ -66,7 +67,9 @@ if origin != nil {
                     }
                 }
             }
-            if i < 15 {i++} else {i = 1}
+            if i < 15 {
+                i++
+            } else {i = 1}
         } else {
             for slots == totalSlots {
                 if err != 0 {
