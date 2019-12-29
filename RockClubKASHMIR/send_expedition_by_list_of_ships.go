@@ -1,9 +1,9 @@
 //==== This script is created by RockClubKASHMIR ====
 
-fromSystem = 1 // Your can change this value as you wish
-toSystem = 200 // Your can change this value as you wish
+fromSystem = 1 // Your can change this value as you want
+toSystem = 200 // Your can change this value as you want
 shipsList = {LARGECARGO: 200, ESPIONAGEPROBE: 11, BOMBER: 1, DESTROYER: 1}// Your can change ENTYRE List, even to left only 1 type of ships!
-DurationOfExpedition = 1 // 1 for one hour, 2 for two hours... change this value as you wish
+DurationOfExpedition = 1 // 1 for one hour, 2 for two hours... change this value as you want
 
 //-------
 curSystem = fromSystem
@@ -11,7 +11,7 @@ origin = nil
 master = 0
 nbr = 0
 err = nil
-// Start to Search highest amount of ships from your list to all your plamets and moons(if yu have some)
+// Start to Search highest amount of ships from your list to all your Planets and Moons(if you have some)
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     flts = 0
@@ -42,7 +42,7 @@ if origin != nil {
         if slots < totalSlots {
             if b == nil {
                 ships, _ = origin.GetShips()
-                Sleep(Random(6000, 10000))
+                Sleep(Random(8*1000, 12*1000)) // For avoiding ban
                 f = NewFleet()
                 f.SetOrigin(origin)
                 f.SetDestination(Destination)
@@ -88,7 +88,6 @@ if origin != nil {
             }
         } else {
             Print("Please, type correctly fromSystem and/or toSystem!")
-            Sleep(2500)
             break
         }
     }
