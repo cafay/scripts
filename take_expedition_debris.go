@@ -4,7 +4,7 @@
 fromSystem = 1 // Your can change this value as you want
 toSystem = 200 // Your can change this value as you want
 Pnbr = 1  // When Pnbr = 1, the script will search debris for minimum 2 Pathfinders. You can set this value from 0, to the number you want
-times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. You can set this value from 0, to the number you want
+times = 1 // if times = 1, the script will full scan 2 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
 //----
 cycle = 0
 curSystem = fromSystem
@@ -15,7 +15,7 @@ err = nil
 if (Pnbr < 0) {Pnbr = 0}
 if (times < 0) {times = 0}
 totalSlots = GetSlots().Total - GetFleetSlotsReserved()
-// Start to Search highest amount of Recyclers on all your Planets and Moons(if you have some)
+// Start to search highest amount of Pathfinders on all your Planets and Moons(if you have some)
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     if ships.Pathfinder > flts {
