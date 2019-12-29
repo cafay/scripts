@@ -1,7 +1,7 @@
 //==== This script is created by RockClubKASHMIR ====
 
 fromSystem = 1 // Your can change this value as you wish
-toSystem = 1 // Your can change this value as you wish
+toSystem = 200 // Your can change this value as you wish
 shipsList = {LARGECARGO: 200, ESPIONAGEPROBE: 11, BOMBER: 1, DESTROYER: 1}// Your can change ENTYRE List, even to left only 1 type of ships!
 DurationOfExpedition = 1 // 1 for one hour, 2 for two hours... change this value as you wish
 
@@ -11,6 +11,7 @@ origin = nil
 master = 0
 nbr = 0
 err = nil
+// Start to Search highest amount of ships from your list to all your plamets and moons(if yu have some)
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     flts = 0
@@ -21,7 +22,7 @@ for celestial in GetCachedCelestials() {
     }
     if flts > master {
         master = flts
-        origin = celestial // Your Planet(or Moon) with higher amount of ships by your list
+        origin = celestial // Your Planet(or Moon) with highest amount of ships by your list
     }
 }
 if origin != nil {
@@ -87,6 +88,7 @@ if origin != nil {
             }
         } else {
             Print("Please, type correctly fromSystem and/or toSystem!")
+            Sleep(2500)
             break
         }
     }
