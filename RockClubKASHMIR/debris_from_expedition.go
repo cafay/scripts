@@ -3,8 +3,8 @@
 //--- WARNING!!! This script can work ONLY if you are Discoverer! ---
 fromSystem = 100 // Your can change this value as you want
 toSystem = 200 // Your can change this value as you want
-Pnbr = 1  // When Rnbr = 1, the script will search only debris for minimum 2 Pathfinders. You can change this value as you want
-times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. Change this value as you wish
+Pnbr = 1  // When Rnbr = 1, the script will search debris for minimum 2 Pathfinders. You can set this value from 0, to the number you want
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. You can set this value from 0, to the number you want
 //----
 cycle = 0
 curSystem = fromSystem
