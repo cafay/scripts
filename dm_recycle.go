@@ -22,7 +22,7 @@ for celestial in GetCachedCelestials() {
 if origin != nil {
     Print("Your origin is "+origin.Coordinate)
     for system = curSystem; system <= toSystem; system++ {
-        systemInfo, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
+        systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         Dtarget = NewCoordinate(origin.GetCoordinate().Galaxy, system, 17, PLANET_TYPE)
         Sleep(Random(500, 1500)) // for avoid ban
         slots = GetSlots().InUse
@@ -30,15 +30,15 @@ if origin != nil {
         if slots < totalSlots {
             if b == nil {
                 Print("Checking "+Dtarget)
-                if systemInfo.ExpeditionDebris > 0 {
+                if systemInfos.Events.Darkmatter > 0 {
                     ships, _ = origin.GetShips()
-                    Print("Found DM Debris: "+systemInfo.ExpeditionDebris)
+                    Print("Found DM Debris: "+systemInfos.Events.Darkmatter)
                     f = NewFleet()
                     f.SetOrigin(origin)
                     f.SetDestination(Dtarget)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    nbr = systemInfo.ExpeditionDebris
+                    nbr = systemInfos.Events.Darkmatter
                     f.AddShips(RECYCLER, 1)
                     a, err = f.SendNow()
                     if err == nil {
