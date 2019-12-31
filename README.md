@@ -1,6 +1,6 @@
 These scripts are created for Ninja BOT
 
-My future updates can be seen when you click on any of links below
+Soon I will create channel for script selling - video clips will proof tht they work. Will inform you when I am ready.
 
 [Find and recycle debris](https://github.com/RockClubKASHMIR/scripts/blob/master/recycle_debris.go)  
 [Sends fleets by list of ships to EXEDITION](https://github.com/RockClubKASHMIR/scripts/blob/master/expedition_by_list_of_ships.go)  
