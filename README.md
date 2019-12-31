@@ -1,4 +1,4 @@
-##### `These scripts are created for Ninja BOT` 
+##### These scripts are created for Ninja BOT 
 `Soon I will create channel for script selling - video clips will proof tht they work. Will inform you when I am ready.`
 
 - [Find and recycle debris](https://github.com/RockClubKASHMIR/scripts/blob/master/recycle_debris.go)
