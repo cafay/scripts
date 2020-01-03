@@ -1,10 +1,11 @@
 //==== This script is created by RockClubKASHMIR ====
 
-fromSystem = 1 // Your can change this value as you want
-toSystem = 200 // Your can change this value as you want
-Rnbr = 0  // When Rnbr = 1, the script will search debris for minimum 2 Recyclers. You can set this value from 0, to the number you want
-times = 1 // If times = 2, the script will scan 3 times the the entire galaxy, from system and to system you want. You can set this value from 0, to the number you want
 
+
+fromSystem = 1 // Your can change this value as you wish
+toSystem = 499 // Your can change this value as you wish
+Rnbr = 0  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you wish
+times = 1 // if times = 1, the script will full scan 2 times the galaxy, from system, to system you want. You can set this value from 0, to the number you want
 //----
 cycle = 0
 curSystem = fromSystem
@@ -29,13 +30,13 @@ if origin != nil {
     if toSystem > 499 || toSystem == 0 {toSystem = -1}
     if fromSystem > toSystem {Print("Please, type correctly fromSystem and/or toSystem!")}
     for system = curSystem; system <= toSystem; system++ {
-        Sleep(Random(500, 1500)) // For avoiding ban
         systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
+        Sleep(Random(1000, 3000)) // for avoid ban
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
-            if b == nil {
+            if planetInfo != nil {
                 Print("Checking "+planetInfo.Coordinate)
                 if planetInfo.Debris.RecyclersNeeded > Rnbr { 
                     ships, _ = origin.GetShips()
@@ -47,12 +48,13 @@ if origin != nil {
                     f.SetDestination(planetInfo.Coordinate)
                     f.SetSpeed(HUNDRED_PERCENT)
                     f.SetMission(RECYCLEDEBRISFIELD)
-                    nbr = planetInfo.Debris.RecyclersNeeded
-                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {nbr = ships.Recycler}
+                    if planetInfo.Debris.RecyclersNeeded > ships.Recycler {
+                        nbr = ships.Recycler
+                    } else {nbr = planetInfo.Debris.RecyclersNeeded}
                     f.AddShips(RECYCLER, nbr)
                     a, err = f.SendNow()
                     if err == nil {
-                        if nbr < planetInfo.Debris.RecyclersNeeded {Print("You don't have enough Ships for this debris field!")}
+                        if planetInfo.Debris.RecyclersNeeded > ships.Recycler {Print("You don't have enough Recyclers for these Debris field!")}
                         if nbr > 1 {
                             Print(nbr+" Recyclers are sended successfully!")
                         } else {Print(nbr+" Recycler is sended successfully!")}
