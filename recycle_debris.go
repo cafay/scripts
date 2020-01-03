@@ -1,7 +1,8 @@
 //==== This script is created by RockClubKASHMIR ====
 
-
-
+/* This script automatically find your Planet or Moon with highes amount of Recyclers
+ * No need to setup your planet!
+*/
 fromSystem = 1 // Your can change this value as you wish
 toSystem = 499 // Your can change this value as you wish
 Rnbr = 0  // If Rnbr = 1, the script will search only debris for minimum 2 Recyclers. You can change this value as you wish
