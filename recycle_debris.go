@@ -33,7 +33,7 @@ if origin != nil {
     for system = curSystem; system <= toSystem; system++ {
         systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
         planetInfo = systemInfos.Position(i)
-        Sleep(Random(1000, 3000)) // for avoid ban
+        Sleep(Random(500, 1000)) // for avoid ban
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
