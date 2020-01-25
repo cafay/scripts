@@ -14,7 +14,7 @@ origin = nil
 master = 0
 nbr = 0
 err = nil
-// Start to Search the ships from your list to all your Planets and Moons(if you have some)
+// Start to Search the ships ONLY from your list to all your Planets and Moons(if you have some)
 for celestial in GetCachedCelestials() {
     ships, _ = celestial.GetShips()
     flts = 0
