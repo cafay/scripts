@@ -103,8 +103,8 @@ if origin != nil {
         } else {
             for slots == totalSlots {
                 if err != nil {
-                    Print("Please wait till ships lands! Recheck after "+ShortDur(2*60))
-                    Sleep(2*60*1000)
+                    Print("Please wait till ships lands! Recheck after "+ShortDur(4*60))
+                    Sleep(4*60*1000)
                     ships, _ = origin.GetShips()
                     for ShipID in shipsList {
                         if ships.ByID(ShipID) != 0 {slots = GetSlots().ExpInUse}
