@@ -1,6 +1,6 @@
-//==== This script is created by RockClubKASHMIR ====
+/***** This script is created by RockClubKASHMIR *****\
 
-/* DESCRIPTION
+   DESCRIPTION
   This script will find automatically your planet/moon with ships AND their amount, by the List of ships!
   
   If you want to remove the automatical method of finding your moon/planet,
@@ -55,22 +55,44 @@ if origin != nil {
         if err != nil {slots = totalSlots}
         if slots < totalSlots {
             if b == nil {
-                ships, _ = origin.GetShips()
+                rtt = 0
+                tt = 0
+                explist = []
+                ExpFleet = {}
+                myShips, _ = origin.GetShips()
                 Sleep(Random(8*1000, 12*1000)) // For avoiding ban
                 f = NewFleet()
                 f.SetOrigin(origin)
                 f.SetDestination(Destination)
                 f.SetSpeed(HUNDRED_PERCENT)
                 f.SetMission(EXPEDITION)
-                for id, nbr in shipsList {
-                    if ships.ByID(id) != 0 {
-                        if ships.ByID(id) < nbr {nbr = ships.ByID(id)}
-                        f.AddShips(id, nbr)
+                if len(shipsList) > 0 {
+                for ShipID, num in shipsList {
+                    rtt = rtt + 1
+                    if myShips.ByID(ShipID) != 0 {
+                        if ShipID != PATHFINDER {
+                            if myShips.ByID(ShipID) >= num {
+                                ExpFleet[ShipID] = num
+                                tt = tt + 1
+                            }
+                        } else {
+                            if myShips.ByID(ShipID) < num {num = myShips.ByID(ShipID)}
+                            ExpFleet[ShipID] = num
+                            tt = tt + 1
+                        }
                     }
                 }
+            }
+            if rtt == tt {
+                for ShipID, nbr in ExpFleet {
+                    f.AddShips(ShipID, nbr)
+                    explist += ShipID+": "+nbr
+                }
+            }
                 f.SetDuration(DurationOfExpedition)
                 a, err = f.SendNow()
                 if err == nil {
+                    Print("Sending "+explist+" is successfully to "+Destination)
                     Print("The ships are sended successfully to "+Destination)
                 } else {
                     Print("The fleet is NOT sended! "+err)
@@ -88,8 +110,8 @@ if origin != nil {
                         err = nil
                     }
                 } else {
-                    Print("All Fleet slots are busy now! Please, wait "+ShortDur(2*60))
-                    Sleep(2*60*1000)
+                    Print("All Fleet slots are busy now! Please, wait "+ShortDur(4*60))
+                    Sleep(4*60*1000)
                     slots = GetSlots().ExpInUse
                 }
             }
