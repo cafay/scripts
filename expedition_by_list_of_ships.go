@@ -1,6 +1,8 @@
 /***** This script is created by RockClubKASHMIR *****\
 
-   DESCRIPTION
+V2.O
+
+  DESCRIPTION
   This script will find automatically your planet/moon with ships AND their amount, by the List of ships!
   
   If you want to remove the automatical method of finding your moon/planet,
