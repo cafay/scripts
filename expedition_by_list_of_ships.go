@@ -92,8 +92,7 @@ if origin != nil {
                 f.SetDuration(DurationOfExpedition)
                 a, err = f.SendNow()
                 if err == nil {
-                    Print("Sending "+explist+" is successfully to "+Destination)
-                    Print("The ships are sended successfully to "+Destination)
+                    Print(explist+" successfully sended to "+Destination)
                 } else {
                     Print("The fleet is NOT sended! "+err)
                     SendTelegram(TELEGRAM_CHAT_ID, "The fleet is NOT sended! "+err)
