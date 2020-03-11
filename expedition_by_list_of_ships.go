@@ -37,6 +37,7 @@ ei = 0
 flag = 0
 cycle = 0
 RepeatTimes = 0
+if (Pnbr < 1) {Pnbr = 1}
 for home in homes {
     for celestial in GetCachedCelestials() {
         if GetCachedCelestial(celestial) == GetCachedCelestial(homes[0]) {
