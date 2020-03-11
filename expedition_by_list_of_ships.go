@@ -12,13 +12,14 @@ homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 500, PATHFINDER: 1000}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
-IMPORTANT!!! If you set some quantity to the some kind of ships, The script will NOT send any fleets if there are less ships than this quantity!*/
+IMPORTANT!!! If you set quantity to the ships, The script will NOT send the fleet if there are less ships than this quantity!
+*/
 
 minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
 plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your current world's system
 
 DurationOfExpedition = 1 // Set duration (in hours) of the EXPEDITION: minimum 1 - maximum 8
-PathfindersDebris = true // Do you want to get EXPO debris? true = YES / false = NO
+PathfindersDebris = true // Do you want to get EXPO debrises? true = YES / false = NO
 Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you set - The Maximum PATHFINDERS is limited only of your PATHFINDERS on the current moon/planet! You can set this value from 1, to the number you want
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
