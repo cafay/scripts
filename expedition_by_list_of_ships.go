@@ -8,7 +8,7 @@
  2. Get EXPO Debris added
 */
 
-homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
+homes = ["M:2:199:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 500, PATHFINDER: 1000}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
@@ -202,23 +202,21 @@ if homeworld != nil {
                         explist += ShipID+": "+nbr
                     }
                 }
-                    a, err = fleet.SendNow()
-                    if err == nil {
-                        snd = 1 
-                        Print(explist+" are sended successfully to "+Dtarget)
-                        if SystemsRange == true {
-                            if crdn <= toSystem {crdn++}
-                            curentco[homes[home]] = crdn
-                        }
-                    } else {
-                        time = times
-                        if snd == 0 {Print("The fleet is NOT sended! "+err)}
-                        if len(homes) > 1 {
-                            if cycle < len(homes) {err = nil}
-                        }
-                        
+                a, err = fleet.SendNow()
+                if err == nil {
+                    snd = 1 
+                    Print(explist+" are sended successfully to "+Dtarget)
+                    if SystemsRange == true {
+                        if crdn <= toSystem {crdn++}
+                        curentco[homes[home]] = crdn
                     }
-                
+                } else {
+                    time = times
+                    if snd == 0 {Print("The fleet is NOT sended! "+err)}
+                    if len(homes) > 1 {
+                        if cycle < len(homes) {err = nil}
+                    }
+                }
                 if cycle < len(homes) {cycle++}
             } else {
                 for slots == totalSlots {
