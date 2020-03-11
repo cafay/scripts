@@ -170,7 +170,7 @@ if homeworld != nil {
                 fleet = NewFleet()
                 fleet.SetOrigin(homeworld)
                 fleet.SetDestination(Dtarget)
-                fleet.SetSpeed(SIXTY_PERCENT)
+                fleet.SetSpeed(HUNDRED_PERCENT)
                 fleet.SetMission(EXPEDITION)
                 if len(shipsList) > 0 {
                     for ShipID, num in shipsList {
