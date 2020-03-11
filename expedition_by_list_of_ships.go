@@ -224,7 +224,7 @@ if homeworld != nil {
                 for slots == totalSlots {
                     slots = GetSlots().ExpInUse
                     expslots = GetSlots().ExpInUse
-                    delay = 1*60 // 10 minutes in seconds
+                    delay = 10*60 // 10 minutes in seconds
                     if err != nil {
                         for slots == expslots {
                             if err.Error() == "no ships to send" {
