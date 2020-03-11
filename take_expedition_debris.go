@@ -107,7 +107,7 @@ if origin != nil {
                 }
             } else {
                 for slots == totalSlots {
-                    if err != 0 {
+                    if err != nil {
                         seconds = 4*60
                         Print("Please wait till ships lands! Recheck after "+ShortDur(seconds))
                         Sleep(seconds*1000)
