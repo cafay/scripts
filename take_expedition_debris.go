@@ -9,8 +9,8 @@
   ONLY if the automatic method of finding your moon/planet not satisfied you;
   - replace all rows between //START and // END with origin = GetCachedCelestial("M:1:2:3") where on "M:1:2:3" must type your coordinate - M for the moon, P for planet
 */
-fromSystem = 1 // Your can change this value as you want
-toSystem = 499 // Your can change this value as you want
+fromSystem = 1 // Set from what system you want start to scan
+toSystem = 499 // Set to what system you want to end to scan
 Range = true // Do you want to use check/fly at range coordinates? true = YES / false = NO 
 
 Pnbr = 2  // Will ignore debris less than for PATHFINDER with quantity as this value. The maximum is not limited even if you left this value as it is! Change it if/as you want.
