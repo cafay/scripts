@@ -60,7 +60,10 @@ if !IsDiscoverer() {
 }
 if homeworld != nil {
 //
-    if HowManyCycles == 0 {HowManyCycles = false}
+    if HowManyCycles == 0 {
+        HowManyCycles = false
+        RepeatTimes = 1
+    }
     for home = current; home <= len(homes)-1; home++ {
         snd = 0
         pp = 0
@@ -205,7 +208,7 @@ if homeworld != nil {
                 }
                 a, err = fleet.SendNow()
                 if err == nil {
-                    snd = 1 
+//                    snd = 1 
                     Print(explist+" are sended successfully to "+Dtarget)
                     if SystemsRange == true {
                         if crdn <= toSystem {crdn++}
@@ -213,7 +216,7 @@ if homeworld != nil {
                     }
                 } else {
                     time = times
-                    if snd == 0 {Print("The fleet is NOT sended! "+err)}
+                    Print("The fleet is NOT sended! "+err)
                     if len(homes) > 1 {
                         if cycle < len(homes) {err = nil}
                     }
@@ -221,32 +224,32 @@ if homeworld != nil {
                 if cycle < len(homes) {cycle++}
             } else {
                 if GetSlots().InUse != 0 {
-                for slots == totalSlots {
-                    slots = GetSlots().ExpInUse
-                    expslots = GetSlots().ExpInUse
-                    delay = 10*60 // 10 minutes in seconds
-                    if err != nil {
-                        for slots == expslots {
-                            if err.Error() == "no ships to send" {
-                                Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                                Sleep(delay*1000)
-                            } else {Print("Will recheck after "+ShortDur(delay))}
-                            expslots = GetSlots().ExpInUse
-                            if slots > expslots {err = nil}
-                        }
-                    } else {
-                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                        Sleep(delay*1000)
+                    for slots == totalSlots {
                         slots = GetSlots().ExpInUse
+                        expslots = GetSlots().ExpInUse
+                        delay = 10*60 // 10 minutes in seconds
+                        if err != nil {
+                            for slots == expslots {
+                                if err.Error() == "no ships to send" {
+                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                                    Sleep(delay*1000)
+                                } else {Print("Will recheck after "+ShortDur(delay))}
+                                expslots = GetSlots().ExpInUse
+                                if slots > expslots {err = nil}
+                            }
+                        } else {
+                            Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                            Sleep(delay*1000)
+                            slots = GetSlots().ExpInUse
+                        }
                     }
-                }
                 } else {
-                    if home >= len(homes)-1 {
-                        fleetFlag++
+                    if cycle == len(homes) {
+                        fleetFlag = fleetFlag+1
                         if fleetFlag > 1 {
                             Print("All your ships are on the ground! Please, check deuterium and make sure that you set the ships list correctly than start the script again!")
-                            Repeat == false
                             time = times
+                            RepeatTimes = HowManyCycles
                         }
                     }
                 }
@@ -257,7 +260,7 @@ if homeworld != nil {
                 if HowManyCycles != false {
                     RepeatTimes++
                     if RepeatTimes >= HowManyCycles {Repeat = false}
-                    if Repeat == true {Print("You maked the full cycle of fleet sending "+RepeatTimes+"!")}
+                    if Repeat == true {Print("You make full cycle of fleet sending "+RepeatTimes+"!")}
                 }
                 if len(homes) > 1 {cycle = 0}
                 current = -1
