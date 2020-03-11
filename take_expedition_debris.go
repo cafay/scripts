@@ -7,7 +7,7 @@
    Newer send more than 1 fleet to the detected debris field at same time, accept only in cases that first fleet is not enough to get all debris
   
   ONLY if the automatic method of finding your moon/planet not satisfied you;
-  - replace all rows between //START and //END, with origin = GetCachedCelestial("M:1:2:3") where on "M:1:2:3" must type your coordinate - M for the moon, P for planet
+  - replace all rows between //START and //END, with origin = GetCachedCelestial("M:1:2:3") where on "M:1:2:3" you must type your coordinate - M for the moon, P for planet
 */
 fromSystem = 1 // Set from what system you want start to scan
 toSystem = 499 // Set to what system you want to end to scan
