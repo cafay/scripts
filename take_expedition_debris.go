@@ -15,7 +15,7 @@ Range = true // Do you want to use check/fly at range coordinates? true = YES / 
 
 Pnbr = 2  // Will ignore debris less than for PATHFINDER with quantity as this value. The maximum is not limited even if you left this value as it is! Change it if/as you want.
 times = 5 // if times = 5, the script will full scan 6 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
-useCycles = true // Do you want to use the limited tepeats?  YES = true / NO = false
+useCycles = true // Do you want to use the limited repeats?  YES = true / NO = false
 
 //----
 cycle = 0
