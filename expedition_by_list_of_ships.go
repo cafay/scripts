@@ -8,7 +8,7 @@
  2. Get EXPO Debris added
 */
 
-homes = ["M:2:199:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
+homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 500, PATHFINDER: 1000}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
