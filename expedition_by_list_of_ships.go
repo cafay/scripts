@@ -150,7 +150,7 @@ if homeworld != nil {
             }
             if pp == 0 {Print("Not found any debris!")}
         }
-        for time = currentTime; time <= times; time++ {
+        for time = currentTime; time < times; time++ {
             myShips, _ = homeworld.GetShips()
             tt = 0
             rtt = 0
