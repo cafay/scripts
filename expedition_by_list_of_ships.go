@@ -223,34 +223,34 @@ if homeworld != nil {
                 }
                 if cycle < len(homes) {cycle++}
             } else {
-                if GetSlots().InUse != 0 {
-                    for slots == totalSlots {
-                        slots = GetSlots().ExpInUse
-                        expslots = GetSlots().ExpInUse
-                        delay = 10*60 // 10 minutes in seconds
-                        if err != nil {
+                for slots == totalSlots {
+                    slots = GetSlots().ExpInUse
+                    expslots = GetSlots().ExpInUse
+                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                    if err != nil {
+                        if GetSlots().ExpInUse != 0 {
                             for slots == expslots {
-                                if err.Error() == "no ships to send" {
+                                if err == "no ships to send" {
                                     Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                                    Sleep(delay*1000)
                                 } else {Print("Will recheck after "+ShortDur(delay))}
+                                Sleep(delay*1000)
                                 expslots = GetSlots().ExpInUse
                                 if slots > expslots {err = nil}
                             }
                         } else {
-                            Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                            Sleep(delay*1000)
-                            slots = GetSlots().ExpInUse
+                            if home >= len(homes)-1 {
+                                fleetFlag++
+                                if fleetFlag > 1 {
+                                    Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
+                                    time = times
+                                    RepeatTimes = HowManyCycles
+                                }
+                            }
                         }
-                    }
-                } else {
-                    if cycle == len(homes) {
-                        fleetFlag = fleetFlag+1
-                        if fleetFlag > 1 {
-                            Print("All your ships are on the ground! Please, check deuterium and make sure that you set the ships list correctly than start the script again!")
-                            time = times
-                            RepeatTimes = HowManyCycles
-                        }
+                    } else {
+                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                        Sleep(delay*1000)
+                        slots = GetSlots().ExpInUse
                     }
                 }
             }
