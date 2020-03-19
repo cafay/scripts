@@ -13,9 +13,11 @@ fromSystem = 1 // Set from what system you want start to scan
 toSystem = 499 // Set to what system you want to end to scan
 Range = true // Do you want to use check/fly at range coordinates? true = YES / false = NO 
 
-Pnbr = 2  // Will ignore debris less than for PATHFINDER with quantity as this value. The maximum is not limited even if you left this value as it is! Change it if/as you want.
-times = 5 // if times = 5, the script will full scan 6 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
-useCycles = true // Do you want to use the limited repeats?  YES = true / NO = false
+Telegram = false // Do you want to have TELEGRAM messages?  YES = true / NO = false
+Pnbr = 5  // Will ignore debris less than for PATHFINDER with quantity as this value. The maximum is not limited even if you left this value as it is! Change it if/as you want.
+times = 8 // if times = 5, the script will full scan 6 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
+useCycles = false // Do you want to use the limited repeats?  YES = true / NO = false
+
 
 //----
 cycle = 0
@@ -107,16 +109,16 @@ if origin != nil {
                 }
             } else {
                 for slots == totalSlots {
+                    delay = Random(4*60, 8*60)
                     if err != nil {
-                        seconds = 4*60
-                        Print("Please wait till ships lands! Recheck after "+ShortDur(seconds))
-                        Sleep(seconds*1000)
+                        Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                        Sleep(delay*1000)
                         ships, _ = origin.GetShips()
                         if ships.Pathfinder > 0 {slots = GetSlots().InUse}
                         err = nil
                     } else {
-                        Print("All Fleet slots are busy now! Please, wait "+ShortDur(seconds))
-                        Sleep(seconds*1000)
+                        Print("All Fleet slots are busy now! Please, wait "+ShortDur(delay))
+                        Sleep(delay*1000)
                         slots = GetSlots().InUse
                     }
                     curSystem = system-1
@@ -132,17 +134,16 @@ if origin != nil {
                                 curSystem = fromSystem-1
                                 system = curSystem
                                 delay = Random(50*60, 90*60)
-                                sleepDelay = delay*1000
                                 Print("Will Start searching again after "+ShortDur(delay))
-                                Sleep(sleepDelay)
+                                Sleep(delay*1000)
                             } else {
                                 Print("You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
-                                SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")
+                                if Telegram == true {SendTelegram(TELEGRAM_CHAT_ID, "You made "+(times+1)+" times full scan all systems chosen by you! The script turns off")}
                                 break
                             }
                         } else {
                             Print("You made full scan all systems chosen by you! The script turns off")
-                            SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")
+                            if Telegram == true {SendTelegram(TELEGRAM_CHAT_ID, "You made full scan all systems chosen by you! The script turns off")}
                             break
                         }
                     } else {
@@ -150,9 +151,8 @@ if origin != nil {
                         curSystem = fromSystem-1
                         system = curSystem
                         delay = Random(50*60, 90*60)
-                        sleepDelay = delay*1000
                         Print("Will Start searching again after "+ShortDur(delay))
-                        Sleep(sleepDelay)
+                        Sleep(delay*1000)
                     }
                 }
             } else {
