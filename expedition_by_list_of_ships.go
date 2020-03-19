@@ -10,9 +10,9 @@
 
 homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 500, PATHFINDER: 1000}/* Your can change ENTIRE List, even to left only 1 type of ships! 
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 2400, DESTROYER: 5, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
-IMPORTANT!!! If you set quantity to the ships, The script will NOT send the fleet if there are less ships than this quantity!
+IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
 */
 
 minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
@@ -24,7 +24,7 @@ Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you se
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
-HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
+HowManyCycles = 0 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
 //-------
 current = 0
@@ -65,7 +65,6 @@ if homeworld != nil {
         RepeatTimes = 1
     }
     for home = current; home <= len(homes)-1; home++ {
-        snd = 0
         pp = 0
         Dtarget = 0
         homeworld = GetCachedCelestial(homes[home])
@@ -208,7 +207,6 @@ if homeworld != nil {
                 }
                 a, err = fleet.SendNow()
                 if err == nil {
-//                    snd = 1 
                     Print(explist+" are sended successfully to "+Dtarget)
                     if SystemsRange == true {
                         if crdn <= toSystem {crdn++}
