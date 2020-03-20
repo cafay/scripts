@@ -1,7 +1,7 @@
 //***** This script is created by RockClubKASHMIR *****\\
 
    
-origin = GetCachedCelestial("M:2:199:3")// Please replace "M:1:2:3" with your coordinates - M for the moon, P for planet
+origin = "M:2:199:3" // Please replace "M:1:2:3" with your coordinates - M for the moon, P for planet
 
 fromSystem = 1 // Set from what system you want start to scan
 toSystem = 499 // Set to what system you want to end to scan
@@ -22,7 +22,7 @@ for celestial in GetCachedCelestials() {
         homeworld = GetCachedCelestial(origin)
         ei = ei + 1
     } else {flag++}
-    if flag == 1 {wrong = GetCachedCelestial(origin)}
+    if flag == 1 {wrong = origin}
 }
 
 nbr = 0
@@ -48,8 +48,8 @@ if homeworld != nil {
         abr = 0
         nbr = 0
         systemInfos, b = GalaxyInfos(origin.GetCoordinate().Galaxy, system)
-        Dtarget, _ = ParseCoord(origin.GetCoordinate().Galaxy+":"+system+":"+16)
-        Debris, _ = ParseCoord("D:"+origin.GetCoordinate().Galaxy+":"+system+":"+16)
+        Dtarget, _ = ParseCoord(origin.GetCoordinate().Galaxy+":"+system+":"+17)
+        Debris, _ = ParseCoord("D:"+origin.GetCoordinate().Galaxy+":"+system+":"+17)
         Sleep(Random(500, 1500)) // for avoid ban
         slots = GetSlots().InUse
         if err != nil {slots = totalSlots}
