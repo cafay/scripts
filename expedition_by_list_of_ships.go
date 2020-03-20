@@ -134,8 +134,8 @@ if homeworld != nil {
                                 } else {Print(nbr+" Pathfinder is sended successfully!")}
                             } else {
                                 if nbr > 1 {
-                                    Print("The Pathfinders are NOT sended! "+err)
-                                } else {Print("The Pathfinder is NOT sended! "+err)}
+                                    Print("The Pathfinders are NOT sended! "+b)
+                                } else {Print("The Pathfinder is NOT sended! "+b)}
                             }
                         } else {Print("Needed ships already are sended!")}
                     }
