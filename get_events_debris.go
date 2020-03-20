@@ -118,7 +118,7 @@ if homeworld != nil {
                             if nbr == 0 {Print("Not found any debris! Start searching again...")}
                             curSystem = fromSystem-1
                             system = curSystem
-                            delay = Random(50*60, 90*60)
+                            delay = Random(30*60, 45*60)
                             Print("Will Start searching again after "+ShortDur(delay))
                             Sleep(delay*1000)
                         } else {
