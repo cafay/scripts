@@ -215,11 +215,13 @@ if homeworld != nil {
                 } else {
                     time = times
                     Print("The fleet is NOT sended! "+err)
+                    er = err
                     if len(homes) > 1 {
                         if cycle < len(homes) {err = nil}
                     }
                 }
                 if cycle < len(homes) {cycle++}
+                if cycle >= len(homes)-1 {err = er}
             } else {
                 for slots == totalSlots {
                     slots = GetSlots().ExpInUse
@@ -233,7 +235,10 @@ if homeworld != nil {
                                 } else {Print("Will recheck after "+ShortDur(delay))}
                                 Sleep(delay*1000)
                                 expslots = GetSlots().ExpInUse
-                                if slots > expslots {err = nil}
+                                if slots > expslots {
+                                    err = nil
+                                    er = nil
+                                }
                             }
                         } else {
                             if home >= len(homes)-1 {
