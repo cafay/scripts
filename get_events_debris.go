@@ -1,47 +1,40 @@
 //***** This script is created by RockClubKASHMIR *****\\
 
    
-origin = "M:2:199:3" // Please replace "M:1:2:3" with your coordinates - M for the moon, P for planet
+origin = "M:1:2:3" // Replace "M:1:2:3" with your coordinates - M for the moon, P for planet
 
 fromSystem = 1 // Set from what system you want start to scan
 toSystem = 499 // Set to what system you want to end to scan
-Range = true // Do you want to use check/fly at range coordinates? true = YES / false = NO 
 
 Telegram = false // Do you want to have TELEGRAM messages?  YES = true / NO = false
 Pnbr = 3  // Will ignore debris less than for PATHFINDER with quantity as this value. The maximum is not limited even if you left this value as it is! Change it if/as you want.
-times = 8 // if times = 5, the script will full scan 6 times the entire galaxy, from system, to system you set. You can set this value from 0, to the number you want
+times = 1 // if times = 1, the script will full scan 6 times the entire galaxy, from system, to system you set. You can set this value from 1, to the number you want
 useCycles = false // Do you want to use the limited repeats?  YES = true / NO = false
 
 
 //----
 cycle = 0
 wrong = 0
+flag = 0
 homeworld = nil
 for celestial in GetCachedCelestials() {
     if GetCachedCelestial(celestial) == GetCachedCelestial(origin) {
         homeworld = GetCachedCelestial(origin)
-        ei = ei + 1
     } else {flag++}
     if flag == 1 {wrong = origin}
 }
-
 nbr = 0
 err = nil
 if (Pnbr < 1) {Pnbr = 1}
 if (times < 0) {times = 0}
-if Range != false && Range != true {Range = true}
 if useCycles != false && useCycles != true {useCycles = false}
 totalSlots = GetSlots().Total - GetFleetSlotsReserved()
 curSystem = fromSystem
 if homeworld != nil {
+    origin = homeworld
     Print("Your origin is "+origin.Coordinate)
     if toSystem > 499 || toSystem == 0 {toSystem = -1}
     if fromSystem > toSystem {Print("Please, type correctly fromSystem and/or toSystem!")}
-    if Range == false {
-        fromSystem = origin.GetCoordinate().System
-        toSystem = origin.GetCoordinate().System
-        curSystem = fromSystem
-    }
     for system = curSystem; system <= toSystem; system++ {
         pp = 0
         dflag = 0
@@ -152,4 +145,4 @@ if homeworld != nil {
             break
         }
     }
-} else {Print("You input wrong coordinates!")}
+} else {Print("You input wrong coordinates! - "+wrong)}
