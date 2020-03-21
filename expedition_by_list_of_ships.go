@@ -3,14 +3,15 @@
  v2.0
  
     DESCRIPTION
- 1. Can send fleets from more than 1 world at same time
+ 1. The script can send fleets from more than 1 planet/moon
     if you want to use more than 1 planet/moon for fleet sending, your list must look like;  homes = ["M:1:2:3", "M:2:21:3"] No limits of planets/moons
- 2. Get EXPO Debris added
+ 2. Check/Get EXPO Debris(if you are Discoverer)
+ 3. If you want to start this script from specific time, remove '//' from row 63, row 267 and row 269
 */
 
 homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 2400, DESTROYER: 5, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 12000, DESTROYER: 50, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
 IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
 */
@@ -24,7 +25,7 @@ Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you se
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
-HowManyCycles = 0 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
+HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
 //-------
 current = 0
@@ -59,7 +60,7 @@ if !IsDiscoverer() {
     PathfindersDebris = false
 }
 if homeworld != nil {
-//
+//CronExec("0 45 7 * * *", func() { /* Replace 45 with desired minutes and 7 with hour that you need*/
     if HowManyCycles == 0 {
         HowManyCycles = false
         RepeatTimes = 1
@@ -82,19 +83,18 @@ if homeworld != nil {
             }
         }
         totalSlots = GetSlots().Total - GetFleetSlotsReserved()
-        slots = GetSlots().InUse
-        if err != nil {slots = totalSlots}
-        if slots < totalSlots {
-            if PathfindersDebris == true {
-                dflag = 0
-                abr = 0
-                nbr = 0
-                curSystem = fromSystem
-                if PathfinderSystemsRange == false {
-                    curSystem = homeworld.GetCoordinate().System
-                    toSystem = homeworld.GetCoordinate().System
-                }
-                for system = curSystem; system <= toSystem; system++ {
+        if PathfindersDebris == true {
+            dflag = 0
+            abr = 0
+            nbr = 0
+            curSystem = fromSystem
+            if PathfinderSystemsRange == false {
+                curSystem = homeworld.GetCoordinate().System
+                toSystem = homeworld.GetCoordinate().System
+            }
+            for system = curSystem; system <= toSystem; system++ {
+                slots = GetSlots().InUse
+                if slots < totalSlots {
                     myShips, _ = homeworld.GetShips()
                     Sleep(Random(1000, 3000))
                     systemInfos, _ = GalaxyInfos(homeworld.GetCoordinate().Galaxy, system)
@@ -142,20 +142,21 @@ if homeworld != nil {
                         } else {Print("Needed ships already are sended!")}
                     }
                 }
-                if pp == 0 {Print("Not found any debris!")}
             }
+            if pp == 0 {Print("Not found any debris!")}
+        }
+        for time = currentTime; time < times; time++ {
+            myShips, _ = homeworld.GetShips()
+            tt = 0
+            rtt = 0
+            ExpFleet = {}
             slots = GetSlots().InUse
-        }
-        if slots < totalSlots {
-            slots = GetSlots().ExpInUse
-            totalSlots = GetSlots().ExpTotal
-        }
-        if slots < totalSlots {
-            for time = currentTime; time < times; time++ {
-                myShips, _ = homeworld.GetShips()
-                tt = 0
-                rtt = 0
-                ExpFleet = {}
+            if slots < totalSlots {
+                slots = GetSlots().ExpInUse
+                totalSlots = GetSlots().ExpTotal
+            }
+            if err != nil {slots = totalSlots}
+            if slots < totalSlots {
                 if SystemsRange == false {
                     Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+homeworld.GetCoordinate().System+":"+16)
                 }
@@ -216,40 +217,38 @@ if homeworld != nil {
                     }
                 }
                 if cycle >= len(homes)-1 {err = er}
-            }
-        } else {
-            for slots == totalSlots {
-                slots = GetSlots().ExpInUse
-                expslots = GetSlots().ExpInUse
-                delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
-                if err != nil {
-                    if GetSlots().ExpInUse != 0 {
-                        for slots == expslots {
-                            if err == "no ships to send" {
-                                Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                            } else {Print("Will recheck after "+ShortDur(delay))}
-                            Sleep(delay*1000)
-                            expslots = GetSlots().ExpInUse
-                            if slots > expslots {
-                                err = nil
-                                er = nil
+                if slots == totalSlots{err = nil}
+            } else {
+                for slots == totalSlots {
+                    slots = GetSlots().ExpInUse
+                    expslots = GetSlots().ExpInUse
+                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                    if err != nil {
+                        if GetSlots().ExpInUse != 0 {
+                            for slots == expslots {
+                                if err == "no ships to send" {
+                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                                } else {Print("Will recheck after "+ShortDur(delay))}
+                                Sleep(delay*1000)
+                                expslots = GetSlots().ExpInUse
+                                if slots > expslots {err = nil}
+                            }
+                        } else {
+                            if home >= len(homes)-1 {
+                                Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
+                                time = times
+                                RepeatTimes = HowManyCycles
                             }
                         }
                     } else {
-                        if home >= len(homes)-1 {
-                            Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
-                            time = times
-                            RepeatTimes = HowManyCycles
-                       }
+                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                        Sleep(delay*1000)
+                        slots = GetSlots().ExpInUse
                     }
-                } else {
-                    Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                    Sleep(delay*1000)
-                    slots = GetSlots().ExpInUse
                 }
             }
         }
-        cycle++
+        if cycle < len(homes) {cycle++}
         if home >= len(homes)-1 {
             if RepeatTimes != HowManyCycles {
                 if HowManyCycles != false {
@@ -265,6 +264,6 @@ if homeworld != nil {
         }
         Sleep(Random(1000, 3000))
     }
-//
+//})
 } else {Print("You typed wrong coordinates! - "+wrong)}
-//
+//<-OnQuitCh
