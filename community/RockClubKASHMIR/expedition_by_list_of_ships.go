@@ -4,11 +4,10 @@
  
     DESCRIPTION
  1. Can send fleets from more than 1 world at same time
-    if you want to use more than 1 planet/moon for fleet sending, your list must look like;  homes = ["M:1:2:3", "M:2:21:3"] No limits of planets/moons
  2. Get EXPO Debris added
 */
 
-homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
+homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet. if you want to use more than 1 planet/moon for fleet sending, your list must look like;  homes = ["M:1:2:3", "M:2:21:3"] No limits of planets/moons
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 2400, DESTROYER: 5, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
@@ -35,9 +34,9 @@ homeworld = nil
 cycle = 0
 i = 0
 ei = 0
+er = nil
 flag = 0
 cycle = 0
-fleetFlag = 0
 RepeatTimes = 0
 if (Pnbr < 1) {Pnbr = 1}
 for home in homes {
@@ -82,18 +81,19 @@ if homeworld != nil {
             }
         }
         totalSlots = GetSlots().Total - GetFleetSlotsReserved()
-        if PathfindersDebris == true {
-            dflag = 0
-            abr = 0
-            nbr = 0
-            curSystem = fromSystem
-            if PathfinderSystemsRange == false {
-                curSystem = homeworld.GetCoordinate().System
-                toSystem = homeworld.GetCoordinate().System
-            }
-            for system = curSystem; system <= toSystem; system++ {
-                slots = GetSlots().InUse
-                if slots < totalSlots {
+        slots = GetSlots().InUse
+        if err != nil {slots = totalSlots}
+        if slots < totalSlots {
+            if PathfindersDebris == true {
+                dflag = 0
+                abr = 0
+                nbr = 0
+                curSystem = fromSystem
+                if PathfinderSystemsRange == false {
+                    curSystem = homeworld.GetCoordinate().System
+                    toSystem = homeworld.GetCoordinate().System
+                }
+                for system = curSystem; system <= toSystem; system++ {
                     myShips, _ = homeworld.GetShips()
                     Sleep(Random(1000, 3000))
                     systemInfos, _ = GalaxyInfos(homeworld.GetCoordinate().Galaxy, system)
@@ -134,33 +134,27 @@ if homeworld != nil {
                                 } else {Print(nbr+" Pathfinder is sended successfully!")}
                             } else {
                                 if nbr > 1 {
-                                    Print("The Pathfinders are NOT sended! "+err)
-                                } else {Print("The Pathfinder is NOT sended! "+err)}
+                                    Print("The Pathfinders are NOT sended! "+b)
+                                } else {Print("The Pathfinder is NOT sended! "+b)}
+                                break
                             }
                         } else {Print("Needed ships already are sended!")}
                     }
-                } else {
-                    for slots == totalSlots {
-                        Print("All slots are busy now! Please, wait "+ShortDur(300))
-                        Sleep(300000)
-                        slots = GetSlots().InUse
-                    }
                 }
+                if pp == 0 {Print("Not found any debris!")}
             }
-            if pp == 0 {Print("Not found any debris!")}
-        }
-        for time = currentTime; time < times; time++ {
-            myShips, _ = homeworld.GetShips()
-            tt = 0
-            rtt = 0
-            ExpFleet = {}
             slots = GetSlots().InUse
-            if slots < totalSlots {
-                slots = GetSlots().ExpInUse
-                totalSlots = GetSlots().ExpTotal
-            }
-            if err != nil {slots = totalSlots}
-            if slots < totalSlots {
+        }
+        if slots < totalSlots {
+            slots = GetSlots().ExpInUse
+            totalSlots = GetSlots().ExpTotal
+        }
+        if slots < totalSlots {
+            for time = currentTime; time < times; time++ {
+                myShips, _ = homeworld.GetShips()
+                tt = 0
+                rtt = 0
+                ExpFleet = {}
                 if SystemsRange == false {
                     Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+homeworld.GetCoordinate().System+":"+16)
                 }
@@ -215,44 +209,46 @@ if homeworld != nil {
                 } else {
                     time = times
                     Print("The fleet is NOT sended! "+err)
+                    er = err
                     if len(homes) > 1 {
                         if cycle < len(homes) {err = nil}
                     }
                 }
-                if cycle < len(homes) {cycle++}
-            } else {
-                for slots == totalSlots {
-                    slots = GetSlots().ExpInUse
-                    expslots = GetSlots().ExpInUse
-                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
-                    if err != nil {
-                        if GetSlots().ExpInUse != 0 {
-                            for slots == expslots {
-                                if err == "no ships to send" {
-                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                                } else {Print("Will recheck after "+ShortDur(delay))}
-                                Sleep(delay*1000)
-                                expslots = GetSlots().ExpInUse
-                                if slots > expslots {err = nil}
-                            }
-                        } else {
-                            if home >= len(homes)-1 {
-                                fleetFlag++
-                                if fleetFlag > 1 {
-                                    Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
-                                    time = times
-                                    RepeatTimes = HowManyCycles
-                                }
+                if cycle >= len(homes)-1 {err = er}
+            }
+        } else {
+            for slots == totalSlots {
+                slots = GetSlots().ExpInUse
+                expslots = GetSlots().ExpInUse
+                delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                if err != nil {
+                    if GetSlots().ExpInUse != 0 {
+                        for slots == expslots {
+                            if err == "no ships to send" {
+                                Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                            } else {Print("Will recheck after "+ShortDur(delay))}
+                            Sleep(delay*1000)
+                            expslots = GetSlots().ExpInUse
+                            if slots > expslots {
+                                err = nil
+                                er = nil
                             }
                         }
                     } else {
-                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                        Sleep(delay*1000)
-                        slots = GetSlots().ExpInUse
+                        if home >= len(homes)-1 {
+                            Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
+                            time = times
+                            RepeatTimes = HowManyCycles
+                       }
                     }
+                } else {
+                    Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                    Sleep(delay*1000)
+                    slots = GetSlots().ExpInUse
                 }
             }
         }
+        cycle++
         if home >= len(homes)-1 {
             if RepeatTimes != HowManyCycles {
                 if HowManyCycles != false {
