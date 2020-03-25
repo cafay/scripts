@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.1
+ v2.1-1
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -25,7 +25,7 @@ Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you se
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
-HowManyCycles = 2 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
+HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
 //-------
 current = 0
@@ -222,32 +222,37 @@ if homeworld != nil {
         }
         if home >= len(homes)-1 {
             for slots == totalSlots {
-                slots = GetSlots().ExpInUse
-                expslots = GetSlots().ExpInUse
                 delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
-                if err != nil {
-                    if GetSlots().ExpInUse != 0 {
-                        for slots == expslots {
-                            if err.Error() == "no ships to send" {
-                                Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                            } else {Print("Will recheck after "+ShortDur(delay))}
-                            Sleep(delay*1000)
-                            expslots = GetSlots().ExpInUse
-                            if slots > expslots {
-                                err = nil
-                                er = nil
+                if Repeat == true {
+                    slots = GetSlots().ExpInUse
+                    expslots = GetSlots().ExpInUse
+                    if err != nil {
+                        if GetSlots().ExpInUse != 0 {
+                            for slots == expslots {
+                                if err.Error() == "no ships to send" {
+                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                                } else {Print("Will recheck after "+ShortDur(delay))}
+                                Sleep(delay*1000)
+                                expslots = GetSlots().ExpInUse
+                                if slots > expslots {
+                                    err = nil
+                                    er = nil
+                                }
+                            }
+                        } else {
+                            if cng == 0 {
+                                Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
+                                RepeatTimes = HowManyCycles
                             }
                         }
                     } else {
-                        if cng == 0 {
-                            Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
-                            RepeatTimes = HowManyCycles
-                        }
+                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                        Sleep(delay*1000)
+                        slots = GetSlots().ExpInUse
                     }
                 } else {
-                    Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                    Sleep(delay*1000)
-                    slots = GetSlots().ExpInUse
+                    slots = 1
+                    totalSlots = 3
                 }
             }
             if RepeatTimes != HowManyCycles {
