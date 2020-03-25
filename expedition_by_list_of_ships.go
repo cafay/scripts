@@ -9,7 +9,7 @@
  3. If you want to start this script from specific time, remove '//' from row 63, row 267 and row 269
 */
 
-homes = [M:1:2:3] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
+homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 12000, DESTROYER: 50, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
