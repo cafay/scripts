@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.0
+ v2.1
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -233,7 +233,10 @@ if homeworld != nil {
                             } else {Print("Will recheck after "+ShortDur(delay))}
                             Sleep(delay*1000)
                             expslots = GetSlots().ExpInUse
-                            if slots > expslots {err = nil}
+                            if slots > expslots {
+                                err = nil
+                                er = nil
+                            }
                         }
                     } else {
                         if cng == 0 {
