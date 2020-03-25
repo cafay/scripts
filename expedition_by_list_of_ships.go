@@ -9,7 +9,7 @@
  3. If you want to start this script from specific time, remove '//' from row 63, row 267 and row 269
 */
 
-homes = ["M:1:2:3"] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
+homes = [M:1:2:3] // Replace M:1:2:3 whith your coordinates. M for the moon, P for the planet
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 12000, DESTROYER: 50, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
@@ -25,7 +25,7 @@ Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you se
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
-HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
+HowManyCycles = 2 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
 //-------
 current = 0
@@ -38,7 +38,7 @@ i = 0
 ei = 0
 er = nil
 flag = 0
-cycle = 0
+cng = 0
 RepeatTimes = 0
 if (Pnbr < 1) {Pnbr = 1}
 for home in homes {
@@ -67,6 +67,7 @@ if homeworld != nil {
     }
     for home = current; home <= len(homes)-1; home++ {
         pp = 0
+        cycle = home
         Dtarget = 0
         homeworld = GetCachedCelestial(homes[home])
         fromSystem = homeworld.GetCoordinate().System - minusCurrentSystem
@@ -83,6 +84,7 @@ if homeworld != nil {
             }
         }
         totalSlots = GetSlots().Total - GetFleetSlotsReserved()
+        slots = GetSlots().InUse
         if PathfindersDebris == true {
             dflag = 0
             abr = 0
@@ -212,51 +214,45 @@ if homeworld != nil {
                     time = times
                     Print("The fleet is NOT sended! "+err)
                     er = err
-                    if len(homes) > 1 {
-                        if cycle < len(homes) {err = nil}
-                    }
+                    err = nil
                 }
-                if cycle >= len(homes)-1 {err = er}
-                if slots == totalSlots{err = nil}
-            } else {
-                for slots == totalSlots {
-                    slots = GetSlots().ExpInUse
-                    expslots = GetSlots().ExpInUse
-                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
-                    if err != nil {
-                        if GetSlots().ExpInUse != 0 {
-                            for slots == expslots {
-                                if err == "no ships to send" {
-                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                                } else {Print("Will recheck after "+ShortDur(delay))}
-                                Sleep(delay*1000)
-                                expslots = GetSlots().ExpInUse
-                                if slots > expslots {err = nil}
-                            }
-                        } else {
-                            if home >= len(homes)-1 {
-                                Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
-                                time = times
-                                RepeatTimes = HowManyCycles
-                            }
+                if home >= len(homes)-1 {err = er}
+            }
+            if err != nil {slots = totalSlots}
+        }
+        if home >= len(homes)-1 {
+            for slots == totalSlots {
+                slots = GetSlots().ExpInUse
+                expslots = GetSlots().ExpInUse
+                delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                if err != nil {
+                    if GetSlots().ExpInUse != 0 {
+                        for slots == expslots {
+                            if err.Error() == "no ships to send" {
+                                Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
+                            } else {Print("Will recheck after "+ShortDur(delay))}
+                            Sleep(delay*1000)
+                            expslots = GetSlots().ExpInUse
+                            if slots > expslots {err = nil}
                         }
                     } else {
-                        Print("All slots are busy now! Please, wait "+ShortDur(delay))
-                        Sleep(delay*1000)
-                        slots = GetSlots().ExpInUse
+                        if cng == 0 {
+                            Print("All your ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
+                            RepeatTimes = HowManyCycles
+                        }
                     }
+                } else {
+                    Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                    Sleep(delay*1000)
+                    slots = GetSlots().ExpInUse
                 }
             }
-        }
-        if cycle < len(homes) {cycle++}
-        if home >= len(homes)-1 {
             if RepeatTimes != HowManyCycles {
                 if HowManyCycles != false {
                     RepeatTimes++
                     if RepeatTimes >= HowManyCycles {Repeat = false}
                     if Repeat == true {Print("You make full cycle of fleet sending "+RepeatTimes+"!")}
                 }
-                if len(homes) > 1 {cycle = 0}
                 current = -1
                 if Repeat == true {home = current}
                 if Repeat == false {Print("You have reached the limit of repeats that you have set")}
