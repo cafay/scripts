@@ -6,7 +6,7 @@
  1. The script can send fleets from more than 1 planet/moon
  2. Automatically find all your planets/moons with enough amount and type of ships like in the list of ships that you set!
     If my automatic method of finding your moons/planets not satisfied you: 
-      a. Replace all rows between //START and //END, with homes = ["M:1:2:3"] where on "M:1:2:3" must type your coordinate - M for the moon, P for planet.
+      a. Replace all rows between // START and // END with homes = ["M:1:2:3"] where on "M:1:2:3" must type your coordinate - M for the moon, P for planet.
       b. if you want to use more than 1 planet/moon for fleet sending, your homes list must look like;  homes = ["M:1:2:3", "M:2:21:3"] No limits of planets/moons
  3. Check/Get EXPO Debris(if you are Discoverer)
  4. You can start this script at specific time
@@ -30,7 +30,7 @@ Repeat = true // Do you want to repeat the full cycle of fleet sending? true = Y
 HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
 myTime = "12:33:00"// Set your start Time; Hour: 00 - 23, Minute: 00 - 59
-useStartTime = true // Do you want to run this script at specific time every day? true = YES / false = NO
+useStartTime = false // Do you want to run this script at specific time every day? true = YES / false = NO
 
 //-------
 current = 0
