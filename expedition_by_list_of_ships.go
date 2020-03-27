@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.2
+ v2.2-1
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -35,7 +35,6 @@ err = nil
 wrong = []
 curentco = {}
 homeworld = nil
-master = 0
 i = 0
 ei = 0
 er = nil
@@ -79,7 +78,7 @@ if useStartTime == false {
     myTime = ""+startSec+" "+startMin+" "+startHour+" * * *"
 }
 if HowManyCycles == 0 {HowManyCycles = false}
-flag = 0
+endFlag = 0
 if homeworld != nil {
     CronExec(myTime, func() {
         for home = current; home <= len(homes)-1; home++ {
@@ -264,7 +263,7 @@ if homeworld != nil {
                                     Print("All your EXPO ships are on the ground! Please, check your deuterium and make sure that you set the ships list correctly, then start the script again!")
                                     RepeatTimes = HowManyCycles
                                     useStartTime = false
-                                    flag = 1
+                                    endFlag = 1
                                 }
                             }
                         } else {
@@ -285,7 +284,7 @@ if homeworld != nil {
                     current = -1
                     if Repeat == true {home = current}
                 } else {
-                    if flag == 0 {Print("You have reached the limit of repeats that you have set")}
+                    if endFlag == 0 {Print("You have reached the limit of repeats that you have set")}
                     Sleep(3000)
                     if useStartTime == false {StopScript(__FILE__)}
                 }
