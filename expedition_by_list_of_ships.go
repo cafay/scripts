@@ -4,14 +4,11 @@
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
- 2. Automatically find all your planets/moons with enough amount and type of ships like in the list of ships that you set!
-    If my automatic method of finding your moons/planets not satisfied you: 
-      a. Replace all rows between // START and // END with homes = ["M:1:2:3"] where on "M:1:2:3" must type your coordinate - M for the moon, P for planet.
-      b. if you want to use more than 1 planet/moon for fleet sending, your homes list must look like;  homes = ["M:1:2:3", "M:2:21:3"] No limits of planets/moons
- 3. Check/Get EXPO Debris(if you are Discoverer)
- 4. You can start this script at specific time
+ 2. Check/Get EXPO Debris(if you are Discoverer)
+ 3. You can start this script at specific time
 */
-
+homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
+// You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 12000, DESTROYER: 50, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
@@ -36,7 +33,6 @@ useStartTime = false // Do you want to run this script at specific time every da
 current = 0
 err = nil
 wrong = []
-homes = []
 curentco = {}
 homeworld = nil
 master = 0
@@ -48,27 +44,6 @@ cng = 0
 RepeatTimes = 1
 if Repeat == false {HowManyCycles = RepeatTimes}
 if (Pnbr < 1) {Pnbr = 1}
-//START
-for celestial in GetCachedCelestials() {
-    ships, _ = celestial.GetShips()
-    slt = 0
-    flts = 0
-    for ShipID, nbr in shipsList {
-        if ships.ByID(ShipID) != 0 {
-            if ships.ByID(ShipID) >= nbr {
-                flts = flts + ships.ByID(ShipID)
-                slt = slt + 1
-            }
-        }
-    }
-    if slt == len(shipsList) {
-        if master == 0 || flts < master {
-            master = flts
-            homes += celestial.Coordinate
-        }
-    }
-}
-//END
 for home in homes {
     for celestial in GetCachedCelestials() {
         if GetCachedCelestial(celestial) == GetCachedCelestial(homes[0]) {
