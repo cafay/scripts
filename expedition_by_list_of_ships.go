@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.3-1
+ v2.43-1
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -10,7 +10,7 @@
 homes = ["M:2:199:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 25, PATHFINDER: 0}/* Your can change ENTIRE List, even to left only 1 type of ships! 
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
 IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
 */
@@ -40,8 +40,10 @@ ei = 0
 er = nil
 flag = 0
 cng = 0
+cycle = 0
+endFlag = 0
+fleetFlag = 0
 RepeatTimes = 1
-if Repeat == false {HowManyCycles = RepeatTimes}
 if (Pnbr < 1) {Pnbr = 1}
 for home in homes {
     for celestial in GetCachedCelestials() {
@@ -78,15 +80,12 @@ if useStartTime == false {
     myTime = ""+startSec+" "+startMin+" "+startHour+" * * *"
 }
 if HowManyCycles == 0 {HowManyCycles = false}
-endFlag = 0
 if homeworld != nil {
     totalUsl = GetSlots().Total - GetFleetSlotsReserved()
     totalExpSlots = GetSlots().ExpTotal
-    times = totalExpSlots
     CronExec(myTime, func() {
         for home = current; home <= len(homes)-1; home++ {
             pp = 0
-            cycle = home
             Dtarget = 0
             homeworld = GetCachedCelestial(homes[home])
             fromSystem = homeworld.GetCoordinate().System - minusCurrentSystem
@@ -95,9 +94,10 @@ if homeworld != nil {
             if fromSystem > 499 {toSystem = 499}
             crdn = fromSystem
             if homeworld.Coordinate.IsMoon() {
-                Print("Your  Moon: "+homeworld.Coordinate)
-            } else {Print("Your Planet: "+homeworld.Coordinate)}
-            currentTime = 1
+                Print("Your Moon is: "+homeworld.Coordinate)
+            } else {Print("Your Planet is: "+homeworld.Coordinate)}
+            times = totalExpSlots
+            currentTime = 0
             if SystemsRange == true && cycle >= len(homes)-1 {
                 for id, num in curentco {
                     if id == homes[home] {crdn = num}
@@ -114,13 +114,13 @@ if homeworld != nil {
                     toSystem = homeworld.GetCoordinate().System
                 }
                 for system = curSystem; system <= toSystem; system++ {
+                    myShips, _ = homeworld.GetShips()
+                    systemInfos, _ = GalaxyInfos(homeworld.GetCoordinate().Galaxy, system)
+                    Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
+                    Debris, _ = ParseCoord("D:"+homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
                     slots = GetSlots().InUse
-                    Sleep(Random(1500, 4000))
+                    Sleep(Random(1500, 3700))
                     if slots < totalSlots {
-                        myShips, _ = homeworld.GetShips()
-                        systemInfos, _ = GalaxyInfos(homeworld.GetCoordinate().Galaxy, system)
-                        Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
-                        Debris, _ = ParseCoord("D:"+homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
                         Print("Checking "+Dtarget)
                         if systemInfos.ExpeditionDebris.PathfindersNeeded >= Pnbr {
                             pp = systemInfos.ExpeditionDebris.PathfindersNeeded
@@ -166,82 +166,92 @@ if homeworld != nil {
                 }
                 if pp == 0 {Print("Not found any debris!")}
             }
-            for time = currentTime; time <= times; time++ {
-                myShips, _ = homeworld.GetShips()
-                tt = 0
-                rtt = 0
-                ExpFleet = {}
-                totalSlots = totalUsl
-                slots = GetSlots().InUse
-                Sleep(Random(1500, 3000))
-                if slots < totalSlots {
-                    slots = GetSlots().ExpInUse
-                    totalSlots = totalExpSlots
-                }
-                if err != nil {slots = totalSlots}
-                if slots < totalSlots {
-                    if SystemsRange == false {
-                        Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+homeworld.GetCoordinate().System+":"+16)
+            slots = GetSlots().InUse
+            Sleep(Random(1000, 3000))
+            if slots < totalSlots {
+                slots = GetSlots().ExpInUse
+                totalSlots = totalExpSlots
+            }
+            Sleep(Random(1000, 3000))
+            if err != nil {slots = totalSlots}
+            if slots < totalSlots {
+                for time = currentTime; time < times; time++ {
+                    myShips, _ = homeworld.GetShips()
+                    tt = 0
+                    rtt = 0
+                    ExpFleet = {}
+                    totalSlots = totalUsl
+                    slots = GetSlots().InUse
+                    Sleep(Random(1500, 3000))
+                    if slots < totalSlots {
+                        slots = GetSlots().ExpInUse
+                        totalSlots = totalExpSlots
                     }
-                    if SystemsRange == true {
-                        if crdn > toSystem {crdn = fromSystem}
-                        Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+crdn+":"+16)
-                    }
-                    explist = []
-                    Sleep(Random(13000, 18000)) // For avoiding ban
-                    fleet = NewFleet()
-                    fleet.SetOrigin(homeworld)
-                    fleet.SetDestination(Dtarget)
-                    fleet.SetSpeed(HUNDRED_PERCENT)
-                    fleet.SetMission(EXPEDITION)
-                    sltPerWorld = times - time
-                    if sltPerWorld == 0 {sltPerWorld = 1}
-                    if len(shipsList) > 0 {
-                        for ShipID, num in shipsList {
-                            rtt = rtt + 1
-                            if myShips.ByID(ShipID) != 0 {
-                                if num == 0 {
-                                    ExpFleet[ShipID] = Floor(myShips.ByID(ShipID)/sltPerWorld)
-                                    tt = tt + 1
-                                } else {
-                                    if ShipID != PATHFINDER {
-                                        if myShips.ByID(ShipID) >= num {
+                    if slots < totalSlots {
+                        if SystemsRange == false {
+                            Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+homeworld.GetCoordinate().System+":"+16)
+                        }
+                        if SystemsRange == true {
+                            if crdn > toSystem {crdn = fromSystem}
+                            Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+crdn+":"+16)
+                        }
+                        explist = []
+                        Sleep(Random(13000, 18000)) // For avoiding ban
+                        fleet = NewFleet()
+                        fleet.SetOrigin(homeworld)
+                        fleet.SetDestination(Dtarget)
+                        fleet.SetSpeed(HUNDRED_PERCENT)
+                        fleet.SetMission(EXPEDITION)
+                        sltPerWorld = times - time
+                        if sltPerWorld == 0 {sltPerWorld = 1}
+                        if len(shipsList) > 0 {
+                            for ShipID, num in shipsList {
+                                rtt = rtt + 1
+                                if myShips.ByID(ShipID) != 0 {
+                                    if num == 0 {
+                                        ExpFleet[ShipID] = Floor(myShips.ByID(ShipID)/sltPerWorld)
+                                        tt = tt + 1
+                                    } else {
+                                        if ShipID != PATHFINDER {
+                                            if myShips.ByID(ShipID) >= num {
+                                                ExpFleet[ShipID] = num
+                                                tt = tt + 1
+                                            }
+                                        } else {
+                                            if myShips.ByID(ShipID) < num {num = myShips.ByID(ShipID)}
                                             ExpFleet[ShipID] = num
                                             tt = tt + 1
                                         }
-                                    } else {
-                                        if myShips.ByID(ShipID) < num {num = myShips.ByID(ShipID)}
-                                        ExpFleet[ShipID] = num
-                                        tt = tt + 1
                                     }
                                 }
                             }
                         }
-                    }
-                    fleet.SetDuration(DurationOfExpedition)
-                    if rtt == tt {
-                        for ShipID, nbr in ExpFleet {
-                            fleet.AddShips(ShipID, nbr)
-                            explist += ShipID+": "+nbr
+                        fleet.SetDuration(DurationOfExpedition)
+                        if rtt == tt {
+                            for ShipID, nbr in ExpFleet {
+                                fleet.AddShips(ShipID, nbr)
+                                explist += ShipID+": "+nbr
+                            }
                         }
-                    }
-                    a, err = fleet.SendNow()
-                    if err == nil {
-                        Print(explist+" are sended successfully to "+Dtarget)
-                        if SystemsRange == true {
-                            if crdn <= toSystem {crdn++}
-                            curentco[homes[home]] = crdn
+                        a, err = fleet.SendNow()
+                        if err == nil {
+                            Print(explist+" are sended successfully to "+Dtarget)
+                            if SystemsRange == true {
+                                if crdn <= toSystem {crdn++}
+                                curentco[homes[home]] = crdn
+                            }
+                        } else {
+                            time = times
+                            Print("The fleet is NOT sended! "+err)
+                            er = err
+                            err = nil
                         }
-                    } else {
-                        time = times
-                        Print("The fleet is NOT sended! "+err)
-                        er = err
-                        err = nil
+                        if home >= len(homes)-1 {err = er}
                     }
-                    if home >= len(homes)-1 {err = er}
+                    if err != nil {slots = totalSlots}
                 }
-                if err != nil {slots = totalSlots}
             }
+            if cycle <= len(homes)-1 {cycle++}
             if home >= len(homes)-1 {
                 for slots == totalSlots {
                     delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
@@ -260,6 +270,7 @@ if homeworld != nil {
                                         err = nil
                                         er = nil
                                     }
+                                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
                                 }
                             } else {
                                 if cng == 0 {
@@ -289,13 +300,15 @@ if homeworld != nil {
                 } else {
                     if endFlag == 0 {Print("You have reached the limit of repeats that you have set")}
                     Sleep(3000)
+                    
                 }
             }
             Sleep(Random(1000, 3000))
         }
         if useStartTime == false {StopScript(__FILE__)}
     })
-} else {Print("You typed wrong coordinates! - "+wrong)
+} else {
+    Print("You typed wrong coordinates! - "+wrong)
     StopScript(__FILE__)
 }
 <-OnQuitCh
