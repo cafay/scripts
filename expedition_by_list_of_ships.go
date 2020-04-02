@@ -1,16 +1,16 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.2-1
+ v2.3-1
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
  2. Check/Get EXPO Debris(if you are Discoverer)
  3. You can start this script at specific time
 */
-homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
+homes = ["M:2:199:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 12000, DESTROYER: 50, PATHFINDER: 100}/* Your can change ENTIRE List, even to left only 1 type of ships! 
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 0, DESTROYER: 25, PATHFINDER: 0}/* Your can change ENTIRE List, even to left only 1 type of ships! 
 If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
 IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
 */
@@ -26,7 +26,7 @@ SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
 HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
 
-myTime = "12:33:00"// Set your start Time; Hour: 00 - 23, Minute: 00 - 59
+myTime = "09:33:00"// Set your start Time; Hour: 00 - 23, Minute: 00 - 59
 useStartTime = false // Do you want to run this script at specific time every day? true = YES / false = NO
 
 //-------
@@ -80,6 +80,9 @@ if useStartTime == false {
 if HowManyCycles == 0 {HowManyCycles = false}
 endFlag = 0
 if homeworld != nil {
+    totalUsl = GetSlots().Total - GetFleetSlotsReserved()
+    totalExpSlots = GetSlots().ExpTotal
+    times = totalExpSlots
     CronExec(myTime, func() {
         for home = current; home <= len(homes)-1; home++ {
             pp = 0
@@ -94,16 +97,13 @@ if homeworld != nil {
             if homeworld.Coordinate.IsMoon() {
                 Print("Your  Moon: "+homeworld.Coordinate)
             } else {Print("Your Planet: "+homeworld.Coordinate)}
-            
-            times = GetSlots().ExpTotal
             currentTime = 1
             if SystemsRange == true && cycle >= len(homes)-1 {
                 for id, num in curentco {
                     if id == homes[home] {crdn = num}
                 }
             }
-            totalSlots = GetSlots().Total - GetFleetSlotsReserved()
-            slots = GetSlots().InUse
+            totalSlots = totalUsl
             if PathfindersDebris == true {
                 dflag = 0
                 abr = 0
@@ -115,9 +115,9 @@ if homeworld != nil {
                 }
                 for system = curSystem; system <= toSystem; system++ {
                     slots = GetSlots().InUse
+                    Sleep(Random(1500, 4000))
                     if slots < totalSlots {
                         myShips, _ = homeworld.GetShips()
-                        Sleep(Random(1000, 3000))
                         systemInfos, _ = GalaxyInfos(homeworld.GetCoordinate().Galaxy, system)
                         Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
                         Debris, _ = ParseCoord("D:"+homeworld.GetCoordinate().Galaxy+":"+system+":"+16)
@@ -171,10 +171,12 @@ if homeworld != nil {
                 tt = 0
                 rtt = 0
                 ExpFleet = {}
+                totalSlots = totalUsl
                 slots = GetSlots().InUse
+                Sleep(Random(1500, 3000))
                 if slots < totalSlots {
                     slots = GetSlots().ExpInUse
-                    totalSlots = GetSlots().ExpTotal
+                    totalSlots = totalExpSlots
                 }
                 if err != nil {slots = totalSlots}
                 if slots < totalSlots {
@@ -192,12 +194,14 @@ if homeworld != nil {
                     fleet.SetDestination(Dtarget)
                     fleet.SetSpeed(HUNDRED_PERCENT)
                     fleet.SetMission(EXPEDITION)
+                    sltPerWorld = times - time
+                    if sltPerWorld == 0 {sltPerWorld = 1}
                     if len(shipsList) > 0 {
                         for ShipID, num in shipsList {
                             rtt = rtt + 1
                             if myShips.ByID(ShipID) != 0 {
                                 if num == 0 {
-                                    ExpFleet[ShipID] = myShips.ByID(ShipID)
+                                    ExpFleet[ShipID] = Floor(myShips.ByID(ShipID)/sltPerWorld)
                                     tt = tt + 1
                                 } else {
                                     if ShipID != PATHFINDER {
@@ -212,7 +216,6 @@ if homeworld != nil {
                                     }
                                 }
                             }
-                            if ShipID == PATHFINDER && myShips.ByID(ShipID) == 0 {tt = tt + 1}
                         }
                     }
                     fleet.SetDuration(DurationOfExpedition)
@@ -286,11 +289,11 @@ if homeworld != nil {
                 } else {
                     if endFlag == 0 {Print("You have reached the limit of repeats that you have set")}
                     Sleep(3000)
-                    if useStartTime == false {StopScript(__FILE__)}
                 }
             }
             Sleep(Random(1000, 3000))
         }
+        if useStartTime == false {StopScript(__FILE__)}
     })
 } else {Print("You typed wrong coordinates! - "+wrong)
     StopScript(__FILE__)
