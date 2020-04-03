@@ -1,21 +1,21 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.44-2
+ v2.45-2
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
  2. Check/Get EXPO Debris (only if you are Discoverer)
  3. You can set up your ship list by 2 methods (or by combination of both of them):
-     a. If you set a value 0 to some of the ships (or to all of your ships), the script will automatically calculate how many ships it will send, according to your free EXPO slots.
-     b. If you set a value (different than 0) to some of your ships (or to all of your ships), the formed by this method fleet will be accepted literally, and if any of your ships is even 1 less, the fleet will not be sent.
+    a. If you set a value 0 to some of the ships (or to all of your ships), the script will automatically calculate how many ships it will send, according to your free EXPO slots.
+    b. If you set a value (different than 0) to some of your ships (or to all of your ships), the formed by this method fleet will be accepted literally, and if any of your ships is even 1 less, the fleet will not be sent.
  4. You can start this script at specific time.
 */
-homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
+homes = ["M:2:295:3", "M:1:2:3", "M:2:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}// Set your Ships list
 
-minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
+minusCurrentSystem = 5 // Set this as start destination of range coordinates - minus your current world's system
 plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your current world's system
 
 DurationOfExpedition = 1 // Set duration (in hours) of the EXPEDITION: minimum 1 - maximum 8
@@ -306,7 +306,6 @@ if homeworld != nil {
                 } else {
                     if endFlag == 0 {Print("You have reached the limit of repeats that you have set")}
                     Sleep(3000)
-                    
                 }
             }
             Sleep(Random(1000, 3000))
