@@ -5,15 +5,15 @@
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
  2. Check/Get EXPO Debris(if you are Discoverer)
- 3. You can start this script at specific time
+ 3. You can set up your ship list in 2 ways:
+     a. If you set a value of 0 to some of the ships (or all of your ships), the script will automatically calculate how many ships it will send, according to your free EXPO slots.
+     b. If you set a value (other than 0) to some of your ships (or all of your ships), this formed fleet will be accepted literally, and if any of your ships is even 1 less, the fleet will not be sent.
+ 4. You can start this script at specific time.
 */
 homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}/* Your can change ENTIRE List, even to left only 1 type of ships! 
-If you set a value 0 to one of your ships, the script will automatically calculate how many ships it will send, according to your current free EXPO slots.
-IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
-*/
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}// Your can change ENTIRE List, even to left only 1 type of ships!
 
 minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
 plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your current world's system
