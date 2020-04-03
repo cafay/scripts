@@ -254,7 +254,7 @@ if homeworld != nil {
                     slots = GetSlots().ExpInUse
                     if err != nil {slots = totalSlots}
                 }
-            }
+            } else {home = len(homes)-1}
             if cycle <= len(homes)-1 {cycle++}
             if home >= len(homes)-1 {
                 for slots == totalSlots {
