@@ -1,17 +1,17 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.43-2
+ v2.44-2
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
  2. Check/Get EXPO Debris(if you are Discoverer)
  3. You can start this script at specific time
 */
-homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
+homes = ["M:2:199:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
 shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}/* Your can change ENTIRE List, even to left only 1 type of ships! 
-If you set 0 to some type of the ships, the script will send ALL ships of this type at once!
+If you set a value 0 to one of your ships, the script will automatically calculate how many ships it will send, according to your current free EXPO slots.
 IMPORTANT!!! This script accept the ships list literally and NOT calculate your ships depense of the free slots, so if you want to send more than 1 fleet per planet/moon, you must calculate very precious your ships before set the ships list!
 */
 
@@ -81,9 +81,10 @@ if useStartTime == false {
 }
 if HowManyCycles == 0 {HowManyCycles = false}
 if homeworld != nil {
-    totalUsl = GetSlots().Total - GetFleetSlotsReserved()
-    totalExpSlots = GetSlots().ExpTotal
     CronExec(myTime, func() {
+        totalUsl = GetSlots().Total - GetFleetSlotsReserved()
+        totalExpSlots = GetSlots().ExpTotal
+        Sleep(1500)
         for home = current; home <= len(homes)-1; home++ {
             pp = 0
             Dtarget = 0
@@ -175,6 +176,8 @@ if homeworld != nil {
             Sleep(Random(1000, 3000))
             if err != nil {slots = totalSlots}
             if slots < totalSlots {
+                times = totalExpSlots - slots
+                if times == 0 {times = 1}
                 for time = currentTime; time < times; time++ {
                     myShips, _ = homeworld.GetShips()
                     tt = 0
