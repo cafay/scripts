@@ -258,10 +258,11 @@ if homeworld != nil {
                     delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
                     if Repeat == true {
                         slots = GetSlots().ExpInUse
-                        expslots = GetSlots().ExpInUse
+                        expslots = slots
                         if err != nil {
-                            if GetSlots().ExpInUse != 0 {
+                            if slots != 0 {
                                 for slots == expslots {
+                                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
                                     if err.Error() == "no ships to send" {
                                         Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
                                     } else {Print("Will recheck after "+ShortDur(delay))}
@@ -271,7 +272,7 @@ if homeworld != nil {
                                         err = nil
                                         er = nil
                                     }
-                                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                                    delay = nil
                                 }
                             } else {
                                 if cng == 0 {
@@ -290,6 +291,7 @@ if homeworld != nil {
                         slots = 1
                         totalSlots = 3
                     }
+                    delay = nil
                 }
                 if RepeatTimes != HowManyCycles {
                     if HowManyCycles != false {
