@@ -266,9 +266,7 @@ if homeworld != nil {
                             if slots != 0 {
                                 for slots == expslots {
                                     delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
-                                    if err.Error() == "no ships to send" {
-                                        Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
-                                    } else {Print("Will recheck after "+ShortDur(delay))}
+                                    Print("Please wait till ships lands! Recheck after "+ShortDur(delay))
                                     Sleep(delay*1000)
                                     expslots = GetSlots().ExpInUse
                                     if slots > expslots {
