@@ -4,8 +4,8 @@
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
- 2. Check/Get EXPO Debris(if you are Discoverer)
- 3. You can set up your ship list by 2 methods:
+ 2. Check/Get EXPO Debris (only if you are Discoverer)
+ 3. You can set up your ship list by 2 methods (or by combination of both of them):
      a. If you set a value 0 to some of the ships (or to all of your ships), the script will automatically calculate how many ships it will send, according to your free EXPO slots.
      b. If you set a value (different than 0) to some of your ships (or to all of your ships), the formed by this method fleet will be accepted literally, and if any of your ships is even 1 less, the fleet will not be sent.
  4. You can start this script at specific time.
