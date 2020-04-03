@@ -13,7 +13,7 @@
 homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
-shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}// Your can change ENTIRE List, even to left only 1 type of ships!
+shipsList = {LARGECARGO: 3000, LIGHTFIGHTER: 10000, DESTROYER: 25, PATHFINDER: 0}// Set your Ships list
 
 minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
 plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your current world's system
