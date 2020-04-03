@@ -273,7 +273,7 @@ if homeworld != nil {
                                         err = nil
                                         er = nil
                                     }
-                                    delay = nil
+                                    delay = 0
                                 }
                             } else {
                                 if cng == 0 {
@@ -292,7 +292,7 @@ if homeworld != nil {
                         slots = 1
                         totalSlots = 3
                     }
-                    delay = nil
+                    delay = 0
                 }
                 if RepeatTimes != HowManyCycles {
                     if HowManyCycles != false {
