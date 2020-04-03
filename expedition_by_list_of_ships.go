@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.43-1
+ v2.43-2
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
