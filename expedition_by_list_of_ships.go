@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v2.45-2
+ v2.48
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -97,7 +97,7 @@ if homeworld != nil {
             if homeworld.Coordinate.IsMoon() {
                 Print("Your Moon is: "+homeworld.Coordinate)
             } else {Print("Your Planet is: "+homeworld.Coordinate)}
-            times = totalExpSlots
+//            times = totalExpSlots
             currentTime = 0
             if SystemsRange == true && cycle >= len(homes)-1 {
                 for id, num in curentco {
@@ -172,7 +172,8 @@ if homeworld != nil {
             if slots < totalSlots {
                 slots = GetSlots().ExpInUse
                 totalSlots = totalExpSlots
-            }
+                if totalSlots == totalExpSlots {fleetFlag = 2}
+            } else {fleetFlag = 1}
             Sleep(Random(1000, 3000))
             if err != nil {slots = totalSlots}
             if slots < totalSlots {
@@ -189,7 +190,8 @@ if homeworld != nil {
                     if slots < totalSlots {
                         slots = GetSlots().ExpInUse
                         totalSlots = totalExpSlots
-                    }
+                        if totalSlots == totalExpSlots {fleetFlag = 2}
+                    } else {fleetFlag = 1}
                     if slots < totalSlots {
                         if SystemsRange == false {
                             Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+homeworld.GetCoordinate().System+":"+16)
@@ -250,8 +252,11 @@ if homeworld != nil {
                             err = nil
                         }
                         if home >= len(homes)-1 {err = er}
+                    } else {
+                        home = len(homes)-1
+                        time = times
+                        fleetFlag = 2
                     }
-                    slots = GetSlots().ExpInUse
                     if err != nil {slots = totalSlots}
                 }
             } else {home = len(homes)-1}
@@ -283,7 +288,8 @@ if homeworld != nil {
                                 }
                             }
                         } else {
-                            Print("All slots are busy now! Please, wait "+ShortDur(delay))
+                            if fleetFlag == 1 {Print("All slots are busy now! Please, wait "+ShortDur(delay))}
+                            if fleetFlag == 2 {Print("All EXPO slots are busy! Please, wait "+ShortDur(delay))}
                             Sleep(delay*1000)
                             slots = GetSlots().ExpInUse
                         }
