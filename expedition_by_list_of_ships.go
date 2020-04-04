@@ -97,7 +97,6 @@ if homeworld != nil {
             if homeworld.Coordinate.IsMoon() {
                 Print("Your Moon is: "+homeworld.Coordinate)
             } else {Print("Your Planet is: "+homeworld.Coordinate)}
-//            times = totalExpSlots
             currentTime = 0
             if SystemsRange == true && cycle >= len(homes)-1 {
                 for id, num in curentco {
