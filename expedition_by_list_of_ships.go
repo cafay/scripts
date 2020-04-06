@@ -189,7 +189,7 @@ if homeworld != nil {
                     times = slotMarker/len(homes)
                     if times > Floor(times) {times = Floor(times) + 1}
                     if times < 1 {times = 1}
-                    Print("Slots per celestial = "+times)
+                    Print(times+" slots will be used")
                 }
                 for time = currentTime; time < times; time++ {
                     myShips, _ = homeworld.GetShips()
