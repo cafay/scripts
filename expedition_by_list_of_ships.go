@@ -18,16 +18,17 @@ homes = ["M:1:2:3"] /*Replace M:1:2:3 with your coordinate - M for the moon, P f
 */
 shipsList = {LARGECARGO: 0, LIGHTFIGHTER: 0, PATHFINDER: 1}// Set your Ships list
 
-splitSlots = true //Do you want evenly distribution of EXPO slots per each moon/planet? true = YES / false = NO
-sendAtOnce = false //Do you want to send the ships set with quantity 0 at once? true = YES / false = NO
+splitSlots = true // Do you want evenly distribution of EXPO slots per each moon/planet? true = YES / false = NO
+sendAtOnce = false // Do you want to send the ships set with quantity 0 at once? true = YES / false = NO
 
-minusCurrentSystem = 3 // Set this as start destination of range coordinates - minus your current world's system
-plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your current world's system
+minusCurrentSystem = 5 // Set this as start destination of range coordinates - minus your solar system
+plusCurrentSystem = 5 // Set this as end destination of range coordinates - plus your solar system
 
 DurationOfExpedition = 1 // Set duration (in hours) of the EXPEDITION: minimum 1 - maximum 8
 PathfindersDebris = true // Do you want to get EXPO debrises? true = YES / false = NO
 Pnbr = 5  // The script will ignore debris less than for PATHFINDERS that you set - The Maximum PATHFINDERS is limited only of your PATHFINDERS on the current moon/planet! You can set this value from 1, to the number you want
 PathfinderSystemsRange = true // Do you want to check/get EXPO debris in range systems? true = YES / false = NO
+
 SystemsRange = false // Do you want to send your EXPO fleet to Range coordinates? true = YES / false = NO
 Repeat = true // Do you want to repeat the full cycle of fleet sending? true = YES / false = NO
 HowManyCycles = 5 // Set the limit of repeats of whole cycle of EXPO fleet sending - 0 means forewer
@@ -109,9 +110,9 @@ if homeworld != nil {
             if fromSystem > 499 {toSystem = 499}
             crdn = fromSystem
             totalShips = shipsList
-            if splitSlots == true && cycle >= len(homes)-1 {
-                for idx, num in split {
-                    if idx == homes[home] {totalShips = num}
+            if splitSlots == true && len(split) == len(homes)-1 {
+                for DI, num in split {
+                    if DI == homes[home] {totalShips = num}
                 }
             }
             if SystemsRange == true && cycle >= len(homes)-1 {
@@ -267,7 +268,7 @@ if homeworld != nil {
                             cng = 1
                             ExpsTemp = ExpsTemp + 1
                             slots = ExpsTemp
-                            if splitSlots == true && len(split) < len(homes) {split[homes[home]] = ExpFleet}
+                            if splitSlots == true && len(split) < len(homes) {if time == 0 {split[homes[home]] = ExpFleet}}
                             if sendAtOnce == true {er = "no ships to send"}
                             Print(explist+" are sended successfully to "+Dtarget)
                             if SystemsRange == true {
