@@ -109,7 +109,7 @@ if homeworld != nil {
             if fromSystem > 499 {toSystem = 499}
             crdn = fromSystem
             totalShips = shipsList
-            if SystemsRange == true && cycle >= len(homes)-1 {
+            if splitSlots == true && cycle >= len(homes)-1 {
                 for idx, num in split {
                     if idx == homes[home] {totalShips = num}
                 }
