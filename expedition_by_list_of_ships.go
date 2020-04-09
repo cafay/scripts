@@ -38,7 +38,7 @@ useStartTime = false // Do you want to run this script at specific time every da
 //-------
 current = 0
 wrong = []
-split = []
+split = {}
 curentco = {}
 homeworld = nil
 i = 0
@@ -89,7 +89,7 @@ if useStartTime == false {
 }
 if HowManyCycles == 0 {HowManyCycles = false}
 if homeworld != nil {
-//    CronExec(myTime, func() {
+    CronExec(myTime, func() {
         slotMarker = 0
         totalUsl = GetSlots().Total - GetFleetSlotsReserved()
         totalExpSlots = GetSlots().ExpTotal
@@ -109,7 +109,11 @@ if homeworld != nil {
             if fromSystem > 499 {toSystem = 499}
             crdn = fromSystem
             totalShips = shipsList
-            if splitSlots == true && len(split) == len(homes) {totalShips = split[home]}
+            if SystemsRange == true && cycle >= len(homes)-1 {
+                for idx, num in split {
+                    if idx == homes[home] {totalShips = num}
+                }
+            }
             if SystemsRange == true && cycle >= len(homes)-1 {
                 for id, num in curentco {
                     if id == homes[home] {crdn = num}
@@ -118,7 +122,6 @@ if homeworld != nil {
             currentTime = 0
             times = totalExpSlots
             totalSlots = totalUsl
-            Print(totalShips)
             if PathfindersDebris == true {
                 dflag = 0
                 abr = 0
@@ -221,7 +224,7 @@ if homeworld != nil {
                             Dtarget, _ = ParseCoord(homeworld.GetCoordinate().Galaxy+":"+crdn+":"+16)
                         }
                         explist = []
-                        Sleep(Random(12000, 18000)) // For avoiding ban
+                        Sleep(Random(13000, 18000)) // For avoiding ban
                         fleet = NewFleet()
                         fleet.SetOrigin(homeworld)
                         fleet.SetDestination(Dtarget)
@@ -264,7 +267,7 @@ if homeworld != nil {
                             cng = 1
                             ExpsTemp = ExpsTemp + 1
                             slots = ExpsTemp
-                            if splitSlots == true && cycle < len(homes)-1 {split += ExpFleet}
+                            if splitSlots == true && len(split) < len(homes) {split[homes[home]] = ExpFleet}
                             if sendAtOnce == true {er = "no ships to send"}
                             Print(explist+" are sended successfully to "+Dtarget)
                             if SystemsRange == true {
@@ -290,7 +293,7 @@ if homeworld != nil {
             } else {home = len(homes)-1}
             if home >= len(homes)-1 {
                 for slots == totalSlots {
-                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
+                    delay = Random(2*60, 5*60) // 7 - 12 minutes in seconds
                     if Repeat == true {
                         slots = GetSlots().ExpInUse
                         expslots = slots
