@@ -223,7 +223,7 @@ if homeworld != nil {
                         Sleep(Random(1000, 3000))
                         fleet.SetDestination(Dtarget)
                         Sleep(Random(1000, 3000))
-                        fleet.SetSpeed(TEN_PERCENT)
+                        fleet.SetSpeed(HUNDRED_PERCENT)
                         fleet.SetMission(EXPEDITION)
                         sltPerWorld = times - time
                         if sltPerWorld == 0 {sltPerWorld = 1}
@@ -289,7 +289,7 @@ if homeworld != nil {
             } else {home = len(homes)-1}
             if home >= len(homes)-1 {
                 for slots == totalSlots {
-                    delay = Random(2*60, 5*60) // 7 - 12 minutes in seconds
+                    delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
                     if Repeat == true {
                         slots = GetSlots().ExpInUse
                         expslots = slots
