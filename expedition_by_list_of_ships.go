@@ -188,7 +188,6 @@ if homeworld != nil {
             Sleep(800)
             if slots < totalSlots {
                 slots = GetSlots().ExpInUse
-                ExpsTemp = slots
                 totalSlots = totalExpSlots
                 if slots == totalSlots {fleetFlag = 2}
             } else {fleetFlag = 1}
@@ -208,9 +207,10 @@ if homeworld != nil {
                     tt = 0
                     rtt = 0
                     ExpFleet = {}
+                    totalSlots = totalUsl
                     slots = GetSlots().InUse
                     if slots < totalSlots {
-                        slots = ExpsTemp
+                        slots = GetSlots().ExpInUse
                         totalSlots = totalExpSlots
                         if slots == totalSlots {fleetFlag = 2}
                     } else {fleetFlag = 1}
