@@ -3,14 +3,15 @@
  v4.5
  
     DESCRIPTION
- 1. The script can send fleets from more than 1 planet/moon
- 2. Check/Get EXPO Debris (only if you are Discoverer)
- 3. You can set up your ship list by 2 methods (or by combination of both of them):
+ 1. Always Keeps reseirved slot
+ 2. You can send EXPO fleets from more than 1 planet/moon 
+ 3. Check for EXPO Debris and recycle them (if you are Discoverer and have Pathfinders)
+ 4. You can set up your ship list by 2 methods (or by combination of both of them):
     a. All ships with quantity 0 that you set will be calculated automatically (full quantity divided by the free EXPO slots)
        - if sendAtOnce = true, all ships set with quantity 0 will be sent at once.
     b. Ships set with quantity different than 0 that you set will be accepted literally, and if any of your ships is even 1 less, the fleet will not be sent.
- 4. You can start this script at specific time. Sending of the fleets will stop after repeats that you set.
- 5. Evenly distribution of EXPO slots per each moon/planet (can be turn on/of)
+ 5. You can start this script at specific time. Sending of the fleets will stop after repeats that you set.
+ 6. Evenly distribution of EXPO slots per each moon/planet (can be turn on/of)
 */
 
 homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
