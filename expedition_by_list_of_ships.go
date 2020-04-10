@@ -1,6 +1,6 @@
 /***** This script is created by RockClubKASHMIR <discord @RockClubKASHMIR#8058> *****\
  
- v4.32
+ v4.5
  
     DESCRIPTION
  1. The script can send fleets from more than 1 planet/moon
@@ -13,7 +13,7 @@
  5. Evenly distribution of EXPO slots per each moon/planet (can be turn on/of)
 */
 
-homes = ["M:1:2:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
+homes = ["M:2:295:3", "M:3:180:14", "M:2:199:3"] // Replace M:1:2:3 with your coordinate - M for the moon, P for planet.
 // You can add as many planets/moons you want - the home list must look like this: homes = ["M:1:2:3", "M:2:2:3"]
 
 shipsList = {LARGECARGO: 0, LIGHTFIGHTER: 0, PATHFINDER: 1}// Set your Ships list
@@ -97,7 +97,6 @@ if homeworld != nil {
         for home = current; home <= len(homes)-1; home++ {
             pp = 0
             Dtarget = 0
-            if home <= len(homes)-1 {cycle = home}
             marker = home
             homeworld = GetCachedCelestial(homes[home])
             if homeworld.Coordinate.IsMoon() {
@@ -109,9 +108,11 @@ if homeworld != nil {
             if fromSystem > 499 {toSystem = 499}
             crdn = fromSystem
             totalShips = shipsList
-            if splitSlots == true && len(split) == len(homes)-1 {
-                for DI, num in split {
-                    if DI == homes[home] {totalShips = num}
+            if splitSlots == true && cycle >= len(homes)-1 {
+                if len(split) > 0 {
+                    for DI, num in split {
+                        if DI == homes[home] {totalShips = num}
+                    }
                 }
             }
             if SystemsRange == true && cycle >= len(homes)-1 {
@@ -120,7 +121,6 @@ if homeworld != nil {
                 }
             }
             currentTime = 0
-            times = totalExpSlots
             totalSlots = totalUsl
             if PathfindersDebris == true {
                 dflag = 0
@@ -186,8 +186,10 @@ if homeworld != nil {
             }
             slots = GetSlots().InUse
             Sleep(800)
+            times = totalExpSlots
             if slots < totalSlots {
                 slots = GetSlots().ExpInUse
+                ExpsTemp = slots
                 totalSlots = totalExpSlots
                 if slots == totalSlots {fleetFlag = 2}
             } else {fleetFlag = 1}
@@ -210,7 +212,7 @@ if homeworld != nil {
                     totalSlots = totalUsl
                     slots = GetSlots().InUse
                     if slots < totalSlots {
-                        slots = GetSlots().ExpInUse
+                        slots = ExpsTemp
                         totalSlots = totalExpSlots
                         if slots == totalSlots {fleetFlag = 2}
                     } else {fleetFlag = 1}
@@ -257,6 +259,7 @@ if homeworld != nil {
                         }
                         fleet.SetDuration(DurationOfExpedition)
                         if rtt == tt {
+                            if splitSlots == true && len(split) < len(homes) {if time == 0 {split[homes[home]] = ExpFleet}}
                             for ShipID, nbr in ExpFleet {
                                 fleet.AddShips(ShipID, nbr)
                                 explist += ShipID+": "+nbr
@@ -267,7 +270,6 @@ if homeworld != nil {
                             cng = 1
                             ExpsTemp = ExpsTemp + 1
                             slots = ExpsTemp
-                            if splitSlots == true && len(split) < len(homes) {if time == 0 {split[homes[home]] = ExpFleet}}
                             if sendAtOnce == true {er = "no ships to send"}
                             Print(explist+" are sended successfully to "+Dtarget)
                             if SystemsRange == true {
@@ -291,6 +293,7 @@ if homeworld != nil {
                     if err != nil {slots = totalSlots}
                 }
             } else {home = len(homes)-1}
+            if cycle <= len(homes)-1 {cycle++}
             if home >= len(homes)-1 {
                 for slots == totalSlots {
                     delay = Random(7*60, 12*60) // 7 - 12 minutes in seconds
